@@ -234,6 +234,41 @@ No calculations yet.
 </div>
 </div>
 </section>
+
+<section id="zscoreSection" class="hidden">
+
+<div class="card">
+
+<h2>📐 Z-Score Calculator</h2>
+
+<input type="number"
+id="zValue"
+placeholder="Value (X)">
+
+<input type="number"
+id="zMean"
+placeholder="Mean (μ)">
+
+<input type="number"
+id="zStd"
+placeholder="Standard Deviation (σ)">
+
+<button onclick="calculateZScore()">
+Calculate Z-Score
+</button>
+
+<div
+class="result"
+id="zscoreResult">
+
+Result will appear here
+
+</div>
+
+</div>
+
+</section>
+  
 </div>
 <div class="bottom-nav">
 <button
@@ -260,6 +295,15 @@ class="nav-btn"
 onclick="showSection('historySection')">
 📜<br>History
 </button>
+
+<button
+class="nav-btn"
+onclick="showSection('zscoreSection')">
+
+📐<br>Z
+
+</button>
+  
 </div>
 <script>
 let historyData=[];
@@ -638,6 +682,54 @@ addHistory(
 "Regression calculated"
 );
 }
+
+function calculateZScore(){
+
+let x=parseFloat(
+document.getElementById("zValue").value
+);
+
+let meanValue=parseFloat(
+document.getElementById("zMean").value
+);
+
+let sd=parseFloat(
+document.getElementById("zStd").value
+);
+
+if(
+isNaN(x) ||
+isNaN(meanValue) ||
+isNaN(sd) ||
+sd===0
+){
+alert(
+"Please enter valid values."
+);
+return;
+}
+
+let z=(x-meanValue)/sd;
+
+document
+.getElementById("zscoreResult")
+.innerHTML=
+`
+<b>Z-Score</b>
+<br><br>
+${z.toFixed(4)}
+<br><br>
+Formula:
+<br>
+(x − μ) / σ
+`;
+
+addHistory(
+`Z-Score = ${z.toFixed(4)}`
+);
+
+}
+  
 showSection(
 "homeSection"
 );
