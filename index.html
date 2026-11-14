@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistics Suite</title>
+<style>
+:root{
+--bg:#0f172a;
+--card:#1e293b;
+--accent:#3b82f6;
+--text:#ffffff;
+--muted:#94a3b8;
+--border:#334155;
+}
+.light{
+--bg:#f8fafc;
+--card:#ffffff;
+--accent:#2563eb;
+--text:#0f172a;
+--muted:#64748b;
+--border:#cbd5e1;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+body{
+background:var(--bg);
+color:var(--text);
+padding-bottom:80px;
+}
+header{
+background:var(--card);
+padding:18px;
+position:sticky;
+top:0;
+border-bottom:1px solid var(--border);
+}
+header h1{
+font-size:24px;
+} header p{
+color:var(--muted);
+margin-top:5px;
+}
+.container{
+padding:15px;
+max-width:900px;
+margin:auto;
+}
+.card{
+background:var(--card);
+border:1px solid var(--border);
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+}
+input,
+textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:10px;
+border-radius:10px;
+border:1px solid var(--border);
+background:var(--bg);
+color:var(--text);
+}
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:var(--accent);
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+.result{
+margin-top:12px;
+background:var(--bg);
+padding:12px;
+border-radius:10px;
+border:1px solid var(--border);
+} .stats-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:12px;
+}
+.stat-card{
+background:var(--bg);
+padding:12px;
+border-radius:12px;
+text-align:center;
+border:1px solid var(--border);
+}
+.stat-card h4{
+font-size:13px;
+color:var(--muted);
+margin-bottom:5px;
+}
+.stat-card div{
+font-size:20px;
+font-weight:bold;
+}
+.hidden{
+display:none;
+}
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:70px;
+background:var(--card);
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid var(--border);
+}
+.nav-btn{
+background:none;
+border:none;
+color:var(--text);
+font-size:12px;
+width:auto;
+} .history-item{
+padding:10px;
+border-bottom:1px solid var(--border);
+}
+</style>
+</head>
+<body>
+<header>
+<h1>📊 Statistics Suite</h1>
+<p>Professional Statistics Calculator</p>
+</header>
+<div class="container">
+<section id="homeSection">
+<div class="card">
+<h2>Welcome</h2>
+<p>
+Statistics Suite v1.0
+</p>
+<br>
+<ul style="padding-left:20px">
+<li>Descriptive Statistics</li>
+<li>Quartiles & IQR</li>
+<li>Probability Calculator</li>
+<li>Correlation Analysis</li>
+<li>Linear Regression</li>
+<li>History Tracking</li>
+</ul>
+<br>
+<button onclick="toggleTheme()">
+Toggle Dark / Light Mode
+</button>
+</div>
+</section>
+<section id="statsSection" class="hidden">
+<div class="card">
+<h2>📊 Descriptive Statistics</h2>
+<textarea
+id="dataInput"
+rows="5"
+placeholder="Example: 12,15,18,20,25"></textarea>
+<button onclick="calculateStats()">
+Calculate
+</button>
+<div id="statsResult"></div>
+</div>
+</section>
+<section id="probabilitySection" class="hidden">
+<div class="card">
+<h2>🎲 Probability Calculator</h2>
+<input
+type="number"
+id="nValue"
+placeholder="n">
+<input
+type="number"
+id="rValue"
+placeholder="r">
+<button onclick="factorialCalc()">
+Factorial (n!)
+</button>
+<br><br>
+<button onclick="permutationCalc()">
+Permutation (nPr)
+</button>
+<br><br>
+<button onclick="combinationCalc()">
+Combination (nCr)
+</button>
+<div
+class="result"
+id="probabilityResult">
+Results appear here
+</div>
+</div>
+</section>
+<section id="regressionSection" class="hidden">
+<div class="card"> <h2>📉 Correlation & Regression</h2>
+<label>X Values</label>
+<textarea
+id="xData"
+rows="4"
+placeholder="1,2,3,4,5"></textarea>
+<label>Y Values</label>
+<textarea
+id="yData"
+rows="4"
+placeholder="2,4,6,8,10"></textarea>
+<button onclick="calculateRegression()">
+Calculate
+</button>
+<div
+class="result"
+id="regressionResult">
+Results appear here
+</div>
+</div>
+</section>
+<section id="historySection" class="hidden">
+<div class="card">
+<h2>📜 History</h2>
+<div id="historyList">
+No calculations yet.
+</div>
+</div>
+</section>
+</div>
+<div class="bottom-nav">
+<button
+class="nav-btn"
+onclick="showSection('homeSection')">
+🏠<br>Home
+</button>
+<button
+class="nav-btn"
+onclick="showSection('statsSection')">
+📊<br>Stats
+</button>
+<button
+class="nav-btn"
+onclick="showSection('probabilitySection')"> 🎲<br>Prob
+</button>
+<button
+class="nav-btn"
+onclick="showSection('regressionSection')">
+📉<br>Reg
+</button>
+<button
+class="nav-btn"
+onclick="showSection('historySection')">
+📜<br>History
+</button>
+</div>
+<script>
+let historyData=[];
+function showSection(id){
+document.querySelectorAll("section")
+.forEach(sec=>{
+sec.classList.add("hidden");
+});
+document
+.getElementById(id)
+.classList.remove("hidden");
+}
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+function addHistory(item){
+historyData.unshift(item);
+let html="";
+historyData.forEach(h=>{
+html+=`
+<div class="history-item">
+${h}
+</div>
+`;
+});
+document
+.getElementById("historyList")
+.innerHTML=html;
+}
+function parseNumbers(id){
+return document
+.getElementById(id)
+.value
+.split(",")
+.map(v=>parseFloat(v.trim()))
+.filter(v=>!isNaN(v));
+}
+function mean(data){
+return data.reduce(
+(a,b)=>a+b,
+0
+)/data.length;
+}
+function median(data){
+let d=[...data] .sort((a,b)=>a-b);
+let mid=Math.floor(
+d.length/2
+);
+return d.length%2
+? d[mid]
+: (d[mid-1]+d[mid])/2;
+}
+function mode(data){
+let count={};
+data.forEach(v=>{
+count[v]=(count[v]||0)+1;
+});
+let max=Math.max(
+...Object.values(count)
+);
+return Object.keys(count)
+.filter(k=>count[k]===max)
+.join(", ");
+}
+function variance(data){
+let m=mean(data);
+return data.reduce(
+(sum,x)=>
+sum+(x-m)*(x-m),
+0
+)/data.length;
+}
+function stddev(data){
+return Math.sqrt(
+variance(data)
+);
+}
+function percentile(sorted,p){
+let index=
+(sorted.length-1)*p;
+let lower=
+Math.floor(index);
+let upper=
+Math.ceil(index);
+if(lower===upper){
+return sorted[index];
+}
+return sorted[lower] +
+(index-lower)
+*
+(sorted[upper]
+-sorted[lower]);
+}
+function quartiles(data){
+let sorted=
+[...data]
+.sort((a,b)=>a-b);
+let q1=
+percentile(sorted,0.25);
+let q2=
+percentile(sorted,0.50);
+let q3=
+percentile(sorted,0.75);
+return{
+q1:q1,
+q2:q2,
+q3:q3,
+iqr:q3-q1
+};
+}
+function calculateStats(){
+let data=
+parseNumbers(
+"dataInput"
+);
+if(data.length===0){
+alert(
+"Please enter values."
+);
+return;
+}
+let q=
+quartiles(data);
+let total=
+data.reduce(
+(a,b)=>a+b,
+0
+);
+let min=
+Math.min(...data);
+let max= Math.max(...data);
+let result=`
+<div class="stats-grid">
+<div class="stat-card">
+<h4>N</h4>
+<div>${data.length}</div>
+</div>
+<div class="stat-card">
+<h4>Sum</h4>
+<div>${total.toFixed(2)}</div>
+</div>
+<div class="stat-card">
+<h4>Mean</h4>
+<div>${mean(data).toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Median</h4>
+<div>${median(data).toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Mode</h4>
+<div>${mode(data)}</div>
+</div>
+<div class="stat-card">
+<h4>Range</h4>
+<div>${max-min}</div>
+</div>
+<div class="stat-card">
+<h4>Variance</h4>
+<div>${variance(data).toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Std Dev</h4>
+<div>${stddev(data).toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Minimum</h4>
+<div>${min}</div>
+</div>
+<div class="stat-card">
+<h4>Maximum</h4>
+<div>${max}</div>
+</div>
+<div class="stat-card"> <h4>Q1</h4>
+<div>${q.q1.toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Q2</h4>
+<div>${q.q2.toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>Q3</h4>
+<div>${q.q3.toFixed(4)}</div>
+</div>
+<div class="stat-card">
+<h4>IQR</h4>
+<div>${q.iqr.toFixed(4)}</div>
+</div>
+</div>
+`;
+document
+.getElementById(
+"statsResult"
+)
+.innerHTML=result;
+addHistory(
+"Statistics calculated"
+);
+}
+function factorial(n){
+if(n<0) return 0;
+let r=1;
+for(
+let i=2;
+i<=n;
+i++
+){
+r*=i;
+}
+return r;
+}
+function factorialCalc(){
+let n=parseInt(
+document
+.getElementById(
+"nValue"
+).value );
+document
+.getElementById(
+"probabilityResult"
+)
+.innerHTML=
+`${n}! = ${factorial(n)}`;
+addHistory(
+`Factorial (${n})`
+);
+}
+function permutationCalc(){
+let n=parseInt(
+document
+.getElementById(
+"nValue"
+).value
+);
+let r=parseInt(
+document
+.getElementById(
+"rValue"
+).value
+);
+let result=
+factorial(n)
+/
+factorial(n-r);
+document
+.getElementById(
+"probabilityResult"
+)
+.innerHTML=
+`nPr = ${result}`;
+addHistory(
+`𝑛𝑃{r}`
+);
+}
+function combinationCalc(){
+let n=parseInt(
+document
+.getElementById(
+"nValue"
+).value );
+let r=parseInt(
+document
+.getElementById(
+"rValue"
+).value
+);
+let result=
+factorial(n)
+/
+(
+factorial(r)
+*
+factorial(n-r)
+);
+document
+.getElementById(
+"probabilityResult"
+)
+.innerHTML=
+`nCr = ${result}`;
+addHistory(
+`𝑛𝐶{r}`
+);
+}
+function calculateRegression(){
+let x=
+parseNumbers(
+"xData"
+);
+let y=
+parseNumbers(
+"yData"
+);
+if(
+x.length!==y.length
+||
+x.length<2
+){
+alert(
+"X and Y must match."
+);
+return;
+} let meanX=
+mean(x);
+let meanY=
+mean(y);
+let numerator=0;
+let denominator=0;
+for(
+let i=0;
+i<x.length;
+i++
+){
+numerator +=
+(x[i]-meanX)
+*
+(y[i]-meanY);
+denominator +=
+(x[i]-meanX)
+*
+(x[i]-meanX);
+}
+let slope=
+numerator/
+denominator;
+let intercept=
+meanY-
+(slope*meanX);
+let rNum=0;
+let rDenX=0;
+let rDenY=0;
+for(
+let i=0;
+i<x.length;
+i++
+){
+rNum +=
+(x[i]-meanX)
+*
+(y[i]-meanY);
+rDenX +=
+(x[i]-meanX)
+*
+(x[i]-meanX);
+rDenY +=
+(y[i]-meanY) *
+(y[i]-meanY);
+}
+let r=
+rNum/
+Math.sqrt(
+rDenX*rDenY
+);
+document
+.getElementById(
+"regressionResult"
+)
+.innerHTML=
+`
+<b>Correlation (r)</b>
+<br>
+${r.toFixed(4)}
+<br><br>
+<b>R²</b>
+<br>
+${(r*r).toFixed(4)}
+<br><br>
+<b>Regression Equation</b>
+<br>
+y =
+${slope.toFixed(4)}
+x +
+${intercept.toFixed(4)}
+`;
+addHistory(
+"Regression calculated"
+);
+}
+showSection(
+"homeSection"
+);
+</script>
+</body>
+</html>
