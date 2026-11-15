@@ -667,6 +667,11 @@ class="nav-btn"
 onclick="showSection('percentileSection')">
 📈<br>Pct
 </button>
+  <button
+class="nav-btn"
+onclick="showSection('frequencySection')">
+📋<br>Freq
+</button>
 </div>
 <script>
 let historyData=[];
@@ -1220,6 +1225,91 @@ ${result.toFixed(4)}
 
 addHistory(
 `Percentile P${p}`
+);
+
+}
+
+function generateFrequencyTable(){
+
+let data=
+parseNumbers(
+"frequencyData"
+);
+
+if(data.length===0){
+
+alert(
+"Please enter values."
+);
+
+return;
+
+}
+
+let frequency={};
+
+data.forEach(v=>{
+
+frequency[v]=
+(frequency[v]||0)+1;
+
+});
+
+let html=`
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+text-align:center;
+">
+
+<tr>
+
+<th style="padding:8px;border:1px solid #555;">
+Value
+</th>
+
+<th style="padding:8px;border:1px solid #555;">
+Frequency
+</th>
+
+</tr>
+
+`;
+
+Object.keys(frequency)
+.sort((a,b)=>a-b)
+.forEach(key=>{
+
+html+=`
+
+<tr>
+
+<td style="padding:8px;border:1px solid #555;">
+${key}
+</td>
+
+<td style="padding:8px;border:1px solid #555;">
+${frequency[key]}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`</table>`;
+
+document
+.getElementById(
+"frequencyResult"
+)
+.innerHTML=html;
+
+addHistory(
+"Frequency table generated"
 );
 
 }
