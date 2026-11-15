@@ -10,8 +10,8 @@ A responsive, learning-focused statistics workspace for students and independent
 - Z-scores, outlier detection, percentiles and frequency tables
 - CSV Data Explorer with in-browser previews and numeric summaries
 - Formula Library and beginner-friendly Learning Center
-- Machine-learning practice calculators: confusion-matrix metrics, data normalization, and regression error metrics
-- Altair AI Studio (formerly RapidMiner Studio) learning notes
+- Learning Center lessons on machine-learning concepts and workflows
+- Altair AI Studio (formerly RapidMiner Studio) guidance and official learning links; model building and evaluation remain in AI Studio
 - Calculation history, responsive mobile navigation, light/dark theme, and installable/offline app-shell support
 
 ## Privacy
@@ -31,4 +31,4 @@ The project can be hosted with GitHub Pages from the `main` branch and repositor
 - [Altair AI Studio documentation](https://docs.rapidminer.com/2026.0/studio/index.html)
 - [Altair AI Studio Academic Hub](https://web.altair.com/academic-hub-ai-studio)
 
-Educational note: the calculators support learning and should be checked against your course's definitions and required methods.
+Educational note: Statistics Suite provides general statistics and data-exploration support. Use Altair AI Studio for machine-learning workflow operations, model training, and model evaluation.
