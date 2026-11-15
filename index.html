@@ -777,15 +777,38 @@ function searchSite(query){
  if(!matches.length){const empty=document.createElement('p');empty.textContent='No matching tools or topics found.';empty.className='chart-caption';panel.appendChild(empty);}
  matches.forEach(item=>{const button=document.createElement('button');button.type='button';button.textContent=item.title;button.setAttribute('role','option');button.onclick=()=>{showSection(item.id);panel.classList.add('hidden');document.getElementById('siteSearch').value='';};panel.appendChild(button);});panel.classList.remove('hidden');
 }
-function showSection(id){
-  document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
+// Friendly, shareable URLs for the main workspace sections.
+const sectionRoutes={
+  statsSection:"calculators",
+  dataAnalysisSection:"csv-explorer",
+  learnSection:"learning-center",
+  formulaSection:"formula-library"
+};
+const routeSections=Object.fromEntries(
+  Object.entries(sectionRoutes).map(([section,route])=>[route,section])
+);
+function sectionFromLocation(){
+  const route=decodeURIComponent(window.location.hash.replace(/^#/,""));
+  return routeSections[route] || (document.getElementById(route) ? route : "homeSection");
+}
+function showSection(id,updateUrl=true){
   const target=document.getElementById(id);
-  if(target) target.classList.remove("hidden");
+  if(!target) return;
+  document.querySelectorAll(".container section").forEach(sec=>sec.classList.add("hidden"));
+  target.classList.remove("hidden");
   document.querySelectorAll("[data-section]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.section===id);
   });
+  if(updateUrl){
+    const route=sectionRoutes[id] || id;
+    const nextUrl=window.location.pathname+window.location.search+"#"+route;
+    if(window.location.hash!=="#"+route){
+      window.history.pushState({section:id},"",nextUrl);
+    }
+  }
   window.scrollTo({top:0,behavior:"smooth"});
 }
+window.addEventListener("popstate",()=>showSection(sectionFromLocation(),false));
 function toggleTheme(){
   document.body.classList.toggle("dark");
 }
@@ -1335,9 +1358,7 @@ try{
     if(Array.isArray(saved)) historyData=saved.filter(item=>typeof item==="string").slice(0,50);
   }catch(error){historyData=[];}
   renderHistory();
-showSection(
-"homeSection"
-);
+showSection(sectionFromLocation(),false);
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(error=>console.warn("Service worker registration failed:",error)));
 }
