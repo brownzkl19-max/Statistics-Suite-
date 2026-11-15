@@ -6,6 +6,11 @@
 <title>Statistics Suite | Free Online Statistics Calculator & Learning Tools</title>
 <meta name="description" content="Explore Statistics Suite, a free educational platform for descriptive statistics, probability, correlation, regression, data analysis, and statistics lessons.">
 <meta name="robots" content="index,follow">
+<meta name="author" content="Statistics Suite">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Statistics Suite | Learn and Explore Statistics">
+<meta property="og:description" content="Explore statistical calculators, learning resources, and CSV data analysis in one educational workspace.">
+<meta name="twitter:card" content="summary">
   <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#163a63">
 <style>
@@ -123,6 +128,30 @@ button,.nav-btn{min-height:44px}
  .chart-row{grid-template-columns:75px 1fr 34px;gap:7px}
  .data-preview th,.data-preview td{padding:8px}
 }
+
+/* Website polish: editorial sections, FAQ, and footer */
+.site-section{margin-top:24px}
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.info-panel{background:var(--surface-soft);border:1px solid var(--border);padding:18px;border-radius:13px}
+.info-panel h3{margin:0 0 8px;color:var(--primary);font-size:15px}
+.info-panel p{font-size:13px;color:var(--muted);margin:0}
+.faq-list{display:grid;gap:10px;margin-top:14px}
+.faq-list details{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.faq-list summary{cursor:pointer;font-weight:700;color:var(--primary);font-size:14px}
+.faq-list details p{font-size:13px;color:var(--muted);margin:10px 0 0}
+.site-footer{margin:38px 0 0;padding:25px 0 12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1.2fr 1fr;gap:20px;color:var(--muted)}
+.footer-brand{font-weight:800;color:var(--primary);font-size:16px}
+.footer-description{font-size:12px;max-width:420px;margin-top:7px}
+.footer-links{display:flex;justify-content:flex-end;align-content:start;align-items:start;gap:9px 16px;flex-wrap:wrap}
+.footer-links button{width:auto;min-height:36px;padding:7px 9px;background:transparent;color:var(--muted);font-size:12px}
+.footer-links button:hover{background:var(--accent-soft);color:var(--accent)}
+.footer-bottom{grid-column:1/-1;border-top:1px solid var(--border);padding-top:13px;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){
+ .about-grid{grid-template-columns:1fr}
+ .site-footer{grid-template-columns:1fr;gap:12px;margin-top:26px}
+ .footer-links{justify-content:flex-start}
+ .footer-bottom{grid-column:auto}
+}
 </style>
 </head>
 <body>
@@ -156,10 +185,11 @@ button,.nav-btn{min-height:44px}
     <button data-section="percentileSection" onclick="showSection('percentileSection')"><span class="nav-icon">％</span> Percentiles</button>
     <button data-section="frequencySection" onclick="showSection('frequencySection')"><span class="nav-icon">▤</span> Frequency Table</button>
   </nav>
-  <div class="sidebar-label">Study</div>
+  <div class="sidebar-label">Study & information</div>
   <nav class="side-nav">
     <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
     <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
+    <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
   </nav>
   <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
 </aside>
@@ -604,6 +634,60 @@ Results appear here
   </div>
 </section>
 
+<section id="aboutSection" class="hidden">
+  <div class="card">
+    <div class="hero-kicker" style="color:var(--accent)">About the platform</div>
+    <h2 style="font-size:27px;margin-top:8px">Statistics made easier to understand.</h2>
+    <p>Statistics Suite is an educational workspace designed to help students and independent learners explore data, practice statistical calculations, and understand essential concepts.</p>
+    <div class="about-grid site-section">
+      <div class="info-panel">
+        <h3>Our purpose</h3>
+        <p>Make common statistical tools and beginner-friendly explanations easier to access in one place. Use the calculators to explore a result, then visit the Learning Center to review the concepts behind it.</p>
+      </div>
+      <div class="info-panel">
+        <h3>Who can use it?</h3>
+        <p>Students, educators, researchers, and anyone learning introductory statistics or working with small datasets.</p>
+      </div>
+      <div class="info-panel">
+        <h3>Learn by exploring</h3>
+        <p>Try sample values, change the inputs, and compare results to build a stronger understanding of statistical ideas.</p>
+      </div>
+      <div class="info-panel">
+        <h3>Privacy note</h3>
+        <p>CSV files are processed in your browser. Calculation history is stored in this browser's local storage and can be cleared from the History section.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Help & Frequently Asked Questions</h2>
+    <p>Quick answers to help you use the platform.</p>
+    <div class="faq-list">
+      <details><summary>How do I enter data into a calculator?</summary><p>Enter numerical values separated by commas, spaces, or new lines. Check that the values are numbers before calculating.</p></details>
+      <details><summary>What is the difference between population and sample variance?</summary><p>Population variance divides the sum of squared deviations by N. Sample variance divides by n − 1 and is commonly used to estimate population variance from a sample.</p></details>
+      <details><summary>Why does the mode sometimes say there is no mode?</summary><p>If every value appears only once, there is no most frequent value, so the dataset has no mode under this calculator's definition.</p></details>
+      <details><summary>How do I use the CSV Data Explorer?</summary><p>Open CSV Data Explorer, choose a CSV file, indicate whether its first row contains column names, and select a detected numeric column to view its summary and distribution.</p></details>
+      <details><summary>Are my uploaded CSV files sent to a server?</summary><p>No. The CSV Data Explorer reads the selected file in your browser for the analysis shown on this page. Avoid using a shared or public device for sensitive data.</p></details>
+      <details><summary>Where is my calculation history stored?</summary><p>History is saved in local storage in your current browser. It does not automatically sync between devices, and you can clear it from the History section.</p></details>
+      <details><summary>Can I use Statistics Suite on my phone?</summary><p>Yes. The layout adapts to smaller screens and includes a mobile navigation bar. For the best experience, use an up-to-date browser.</p></details>
+      <details><summary>Are the results a substitute for checking my work?</summary><p>No. Use the results as a learning aid and verify important academic or research calculations against your course materials and required statistical methods.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div>
+    <div class="footer-brand">∑ Statistics Suite</div>
+    <p class="footer-description">An educational statistics workspace for learning, exploring data, and practicing statistical calculations.</p>
+  </div>
+  <div class="footer-links" aria-label="Footer navigation">
+    <button onclick="showSection('homeSection')">Home</button>
+    <button onclick="showSection('learnSection')">Learning Center</button>
+    <button onclick="showSection('aboutSection')">About & FAQ</button>
+    <button onclick="showSection('statsSection')">Statistics Tools</button>
+    <button onclick="showSection('dataAnalysisSection')">CSV Explorer</button>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Statistics Suite · Educational resource</span><span>Built to make statistics easier to explore.</span></div>
+</footer>
 </div>
 <nav class="bottom-nav" aria-label="Mobile navigation">
   <button class="nav-btn active" data-section="homeSection" onclick="showSection('homeSection')">⌂<br>Home</button>
@@ -611,6 +695,7 @@ Results appear here
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
   <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
+  <button class="nav-btn" data-section="aboutSection" onclick="showSection('aboutSection')">ⓘ<br>Help</button>
 </nav>
 <script>
 let historyData=[];
