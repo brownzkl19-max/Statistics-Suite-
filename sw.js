@@ -1,10 +1,9 @@
-const CACHE_NAME = "statistics-suite-v1";
+const CACHE_NAME = "statistics-suite-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./statistics-suite-icon.webp"
 ];
 
 self.addEventListener("install", event => {
