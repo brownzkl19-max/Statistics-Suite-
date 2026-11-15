@@ -10,11 +10,14 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Statistics Suite | Learn and Explore Statistics">
 <meta property="og:description" content="Explore statistical calculators, learning resources, and CSV data analysis in one educational workspace.">
+<meta property="og:image" content="https://brownzkl19-max.github.io/Statistics-Suite-/statistics-suite-icon.webp">
+<meta name="twitter:image" content="https://brownzkl19-max.github.io/Statistics-Suite-/statistics-suite-icon.webp">
 <meta name="twitter:card" content="summary">
   <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#163a63">
 <link rel="canonical" href="https://brownzkl19-max.github.io/Statistics-Suite-/">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/webp" href="statistics-suite-icon.webp">
+<link rel="apple-touch-icon" href="statistics-suite-icon.webp">
 <style>
 :root{
   color-scheme:light;
@@ -32,7 +35,7 @@ button:hover{background:#1d4ed8;transform:translateY(-1px)}
 button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
 .topbar{height:76px;position:sticky;top:0;z-index:20;margin-left:258px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
 .brand{display:flex;align-items:center;gap:12px}
-.brand-mark{width:42px;height:42px;border-radius:12px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:21px}
+.brand-mark{width:42px;height:42px;flex:0 0 42px;display:block;object-fit:cover;border-radius:11px;box-shadow:0 2px 8px rgba(2,12,35,.2)}
 .brand-name{font-weight:800;letter-spacing:-.03em;color:var(--primary);font-size:18px}
 .brand-subtitle{font-size:11px;color:var(--muted);margin-top:-3px}
 .topbar-actions{display:flex;align-items:center;gap:12px}
@@ -40,7 +43,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px soli
 .theme-button{width:auto;background:var(--surface-soft);color:var(--primary);padding:10px 13px}
 .sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--primary);color:#fff;padding:25px 16px;z-index:30;overflow-y:auto}
 .sidebar-brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px;border-bottom:1px solid rgba(255,255,255,.16)}
-.sidebar-brand .brand-mark{background:#fff;color:var(--primary)}
+.sidebar-brand .brand-mark{background:transparent}
 .sidebar-brand .brand-name{color:#fff}
 .sidebar-label{padding:23px 12px 9px;color:#a9bfd9;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
 .side-nav{display:grid;gap:5px}
@@ -142,7 +145,7 @@ button,.nav-btn{min-height:44px}
 .faq-list summary{cursor:pointer;font-weight:700;color:var(--primary);font-size:14px}
 .faq-list details p{font-size:13px;color:var(--muted);margin:10px 0 0}
 .site-footer{margin:38px 0 0;padding:25px 0 12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1.2fr 1fr;gap:20px;color:var(--muted)}
-.footer-brand{font-weight:800;color:var(--primary);font-size:16px}
+.footer-brand{display:flex;align-items:center;gap:9px;font-weight:800;color:var(--primary);font-size:16px}.footer-brand img{width:28px;height:28px;object-fit:cover;border-radius:7px}
 .footer-description{font-size:12px;max-width:420px;margin-top:7px}
 .footer-links{display:flex;justify-content:flex-end;align-content:start;align-items:start;gap:9px 16px;flex-wrap:wrap}
 .footer-links button{width:auto;min-height:36px;padding:7px 9px;background:transparent;color:var(--muted);font-size:12px}
@@ -152,6 +155,19 @@ button,.nav-btn{min-height:44px}
 .site-search-wrap{position:relative;width:min(30vw,300px)}.site-search{margin:0;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);font-size:13px}
 .search-results{position:absolute;right:0;top:calc(100% + 9px);width:min(340px,90vw);max-height:55vh;overflow:auto;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);z-index:50}
 .search-results button{display:block;width:100%;padding:10px 12px;margin:2px 0;text-align:left;background:transparent;color:var(--text);font-size:13px}.search-results button:hover{background:var(--accent-soft);color:var(--accent);transform:none}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:16px 0}
+.lesson-card,.ml-calculator{min-width:0;padding:17px;margin:14px 0;background:var(--surface-soft);border:1px solid var(--border);border-radius:13px}
+.lesson-card h3,.ml-calculator h3{margin:0 0 9px;color:var(--primary);font-size:16px}
+.lesson-card p,.ml-calculator p{font-size:13px;line-height:1.65}
+.lesson-card button,.ml-calculator button{margin-top:8px}
+.resource-links{font-size:13px;margin-top:15px}.resource-links a{color:var(--accent);font-weight:650}
+.metric-input-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.metric-input-grid label{min-width:0}.metric-input-grid input{margin-bottom:3px}
+.ml-calculator textarea{min-height:76px}
+.ml-metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.ml-metric{padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.ml-metric strong{display:block;font-size:12px;color:var(--muted)}.ml-metric span{font-size:20px;font-weight:800;color:var(--primary)}
+@media(max-width:640px){.lesson-grid{grid-template-columns:1fr}.metric-input-grid,.ml-metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.formula-card{min-width:0;padding:16px;background:var(--surface-soft);border:1px solid var(--border);border-radius:12px}
 .formula-card h3{margin:0 0 9px;font-size:15px;color:var(--primary)}.formula-card p{margin:9px 0 0;font-size:13px;color:var(--muted)}
 .formula-math{padding:11px;background:var(--surface);border-radius:8px;font-family:Georgia,serif;font-size:16px;overflow-wrap:anywhere;color:var(--text)}
@@ -167,7 +183,7 @@ button,.nav-btn{min-height:44px}
 <body>
 <header class="topbar">
   <div class="brand">
-    <div class="brand-mark" aria-hidden="true">∑</div>
+    <img class="brand-mark" src="statistics-suite-icon.webp" alt="">
     <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic Statistics Workspace</div></div>
   </div>
   <div class="topbar-actions">
@@ -178,7 +194,7 @@ button,.nav-btn{min-height:44px}
 </header>
 <aside class="sidebar" aria-label="Main navigation">
   <div class="sidebar-brand">
-    <div class="brand-mark" aria-hidden="true">∑</div>
+    <img class="brand-mark" src="statistics-suite-icon.webp" alt="">
     <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic workspace</div></div>
   </div>
   <div class="sidebar-label">Workspace</div>
@@ -199,6 +215,7 @@ button,.nav-btn{min-height:44px}
   <div class="sidebar-label">Study & information</div>
   <nav class="side-nav">
     <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
+    <button data-section="mlToolsSection" onclick="showSection('mlToolsSection')"><span class="nav-icon">⌘</span> ML & RapidMiner</button>
     <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
     <button data-section="formulaSection" onclick="showSection('formulaSection')"><span class="nav-icon">ƒ</span> Formula Library</button>
     <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
@@ -229,6 +246,7 @@ button,.nav-btn{min-height:44px}
     <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
     <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
     <article class="tool-card"><div class="tool-icon">ƒ</div><h3>Formula Library</h3><p>Review common statistical formulas with plain-language explanations and examples.</p><button onclick="showSection('formulaSection')">Browse formulas</button></article>
+    <article class="tool-card"><div class="tool-icon">⌘</div><h3>ML & RapidMiner</h3><p>Practice confusion matrix metrics, normalization, and regression model evaluation.</p><button onclick="showSection('mlToolsSection')">Explore ML tools</button></article>
   </div>
   <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
@@ -431,161 +449,30 @@ Results appear here
 
 </section>
 
-  <section id="learnSection" class="hidden">
-
-<div class="card">
-
-<h2>📚 Learn Statistics</h2>
-
-<h3>Mean</h3>
-
-<p>
-The mean is the average of a dataset.
-Add all values then divide by the number
-of values.
-</p>
-
-<br>
-
-<p>
-Example:
-1,2,3,4,5
-<br>
-Mean = 3
-</p>
-
-<hr><br>
-
-<h3>Median</h3>
-
-<p>
-The median is the middle value after the
-data has been sorted.
-</p>
-
-<p>
-Example:
-1,2,3,4,5
-Median = 3
-</p>
-
-<hr>
-
-<h3>Mode</h3>
-
-<p>
-The mode is the value that appears most often.
-</p>
-
-<p>
-Example:
-1,1,2,3,4
-Mode = 1
-</p>
-
-<hr><br>
-
-<h3>Q1 (First Quartile)</h3>
-
-<p>
-Q1 is the value below which 25% of the data falls.
-</p>
-
-<hr><br>
-
-<h3>Q2 (Median)</h3>
-
-<p>
-Q2 is the middle point of the dataset.
-50% of values lie below it.
-</p>
-
-<hr><br>
-
-<h3>Q3 (Third Quartile)</h3>
-
-<p>
-Q3 is the value below which 75% of the data falls.
-</p>
-
-<hr><br>
-
-<h3>IQR</h3>
-
-<p>
-IQR measures the spread of the middle
-50% of data.
-</p>
-
-<p>
-Formula:
-IQR = Q3 − Q1
-</p>
-
-<hr><br>
-
-<h3>Z-Score</h3>
-
-<p>
-Z-Score shows how many standard deviations
-a value is from the mean.
-</p>
-
-<p>
-Positive = Above average<br>
-Negative = Below average
-</p>
-
-<hr><br>
-
-<h3>Percentile</h3>
-
-<p>
-A percentile tells you the percentage of
-data that falls below a value.
-</p>
-
-<p>
-P90 means a value is higher than 90% of
-the dataset.
-</p>
-
-<hr><br>
-
-<h3>Outliers</h3>
-
-<p>
-Outliers are unusual values that are much
-higher or lower than the rest of the data.
-</p>
-
-<hr><br>
-
-<h3>Correlation</h3>
-
-<p>
-Correlation measures the strength of the
-relationship between two variables.
-</p>
-
-<p>
-r = 1 → Perfect Positive<br>
-r = 0 → No Relationship<br>
-r = -1 → Perfect Negative
-</p>
-
-<hr><br>
-
-<h3>Regression</h3>
-
-<p>
-Regression predicts a value using another
-variable.
-</p>
-
+  <section id="learnSection" class="hidden"><div class="card">
+<div class="hero-kicker" style="color:var(--accent)">Study guides</div><h2 style="font-size:25px;margin-top:8px">Learning Center</h2>
+<p>Understand the ideas behind the calculations, then use the tools to practice with your own data.</p>
+<div class="lesson-tip">Suggested path: learn descriptive statistics first, explore data preparation next, then study machine-learning models and their evaluation.</div>
+<div class="lesson-grid">
+<article class="lesson-card"><h3>Descriptive statistics</h3><p><b>Mean:</b> arithmetic average. <b>Median:</b> middle value after sorting; for an even count, average the two middle values. <b>Mode:</b> most frequent value; a dataset can have multiple modes or no mode.</p><p><b>Range:</b> maximum minus minimum. <b>Variance:</b> average squared spread around the mean. <b>Standard deviation:</b> square root of variance. <b>IQR:</b> Q3 − Q1, the spread of the middle half.</p><button onclick="showSection('statsSection')">Open descriptive statistics</button></article>
+<article class="lesson-card"><h3>Probability and counting</h3><p><b>Probability:</b> a value from 0 to 1 describing how likely an event is under a defined model. <b>Factorial:</b> n! is the product of positive integers up to n, with 0! = 1.</p><p><b>Permutation:</b> counts arrangements when order matters. <b>Combination:</b> counts selections when order does not matter.</p><button onclick="showSection('probabilitySection')">Open probability tools</button></article>
+<article class="lesson-card"><h3>Relationships between variables</h3><p><b>Correlation:</b> describes direction and strength of a linear relationship. A strong correlation does not prove causation. <b>Regression:</b> models an outcome using predictors.</p><p><b>Residual:</b> actual value minus predicted value. Residual patterns can reveal where a model fits poorly.</p><button onclick="showSection('regressionSection')">Open correlation & regression</button></article>
+<article class="lesson-card"><h3>Data preparation</h3><p>Inspect column names, data types, missing values, duplicate records, unusual values and category spelling. Decide how to handle each issue and document the decision.</p><p>Keep the original file unchanged. Make sure the target variable and predictor columns match the question being studied.</p><button onclick="showSection('dataAnalysisSection')">Open CSV Data Explorer</button></article>
 </div>
-
-</section>
+<h3>Machine learning and RapidMiner</h3>
+<p>RapidMiner Studio is now called <b>Altair AI Studio</b>, a visual workflow tool for preparing data, building predictive models and evaluating results. These lessons use familiar RapidMiner classroom terminology alongside the current product name.</p>
+<div class="lesson-grid">
+<article class="lesson-card"><h3>1. Build a workflow</h3><p>Import a dataset, inspect its attributes, connect operators and run the process. A workflow should be repeatable and easy to explain.</p></article>
+<article class="lesson-card"><h3>2. Prepare the data</h3><p>Check missing or unknown values, correct data types, select useful attributes, set the label/target role and remove columns that would not be known at prediction time.</p></article>
+<article class="lesson-card"><h3>3. Train and test fairly</h3><p>Separate training data from testing data. Fit the model using training data, then evaluate it on data it did not train on. Use the same split and preprocessing when comparing models.</p></article>
+<article class="lesson-card"><h3>4. Classification models</h3><p>Decision Tree learns visual decision rules. Naive Bayes uses probability and a conditional-independence assumption. Compare models using the same data and evaluation method.</p></article>
+<article class="lesson-card"><h3>5. Confusion matrix</h3><p>True Positive (TP), True Negative (TN), False Positive (FP) and False Negative (FN) count correct and incorrect classifications. Which error matters most depends on the task.</p></article>
+<article class="lesson-card"><h3>6. Evaluation metrics</h3><p><b>Accuracy:</b> share of all predictions that are correct. <b>Precision:</b> how many predicted positives were correct. <b>Recall:</b> how many actual positives were found. <b>F1:</b> balances precision and recall.</p></article>
+</div>
+<div class="lesson-tip">Example: for a prediction made before a marketing call, do not use call duration if it is only known after the call. Avoid data leakage by using only information available at prediction time.</div>
+<p>Practice with the calculators for classification metrics, data normalization and regression errors.</p><button onclick="showSection('mlToolsSection')">Open ML & RapidMiner calculators</button>
+<p class="resource-links">Official resources: <a href="https://docs.rapidminer.com/2026.0/studio/index.html" target="_blank" rel="noopener">Altair AI Studio documentation</a> · <a href="https://web.altair.com/academic-hub-ai-studio" target="_blank" rel="noopener">Academic Hub</a>.</p>
+</div></section>
 
 <section id="frequencySection" class="hidden">
 
@@ -647,7 +534,16 @@ Results appear here
   </div>
 </section>
 
-<section id="formulaSection" class="hidden"><div class="card"><div class="hero-kicker" style="color:var(--accent)">Study reference</div><h2 style="font-size:27px;margin-top:8px">Statistics Formula Library</h2><p>Review common introductory statistics formulas and what they mean.</p><div class="formula-grid">
+<section id="mlToolsSection" class="hidden"><div class="card">
+<div class="hero-kicker" style="color:var(--accent)">Machine learning practice</div><h2 style="font-size:25px;margin-top:8px">ML & RapidMiner Calculators</h2>
+<p>Companion tools for classification, preprocessing and regression model evaluation in Altair AI Studio (formerly RapidMiner Studio).</p>
+<div class="lesson-tip">These calculators help check metrics by hand. They do not train a model or replace the Performance operator in AI Studio.</div>
+<div class="ml-calculator"><h3>1. Confusion Matrix Metrics</h3><p>Enter whole-number counts of zero or greater.</p>
+<div class="metric-input-grid"><label>True Positive (TP)<input id="mlTP" type="number" min="0" step="1" value="40"></label><label>False Positive (FP)<input id="mlFP" type="number" min="0" step="1" value="10"></label><label>True Negative (TN)<input id="mlTN" type="number" min="0" step="1" value="35"></label><label>False Negative (FN)<input id="mlFN" type="number" min="0" step="1" value="15"></label></div>
+<button onclick="calculateMLMetrics()">Calculate classification metrics</button><div id="mlMetricsResult" class="result" aria-live="polite">Enter values and calculate.</div></div>
+<div class="ml-calculator"><h3>2. Data Normalization</h3><p>Enter numeric values separated by commas to calculate min-max scaling (0 to 1) and population z-scores.</p><label for="normalizationValues">Dataset values</label><textarea id="normalizationValues">10, 20, 30, 40, 50</textarea><button onclick="calculateNormalization()">Normalize dataset</button><div id="normalizationResult" class="result" aria-live="polite">Enter values and calculate.</div></div>
+<div class="ml-calculator"><h3>3. Regression Error Metrics</h3><p>Enter actual and predicted values in matching order. Both lists must have the same number of numeric values.</p><label for="regActual">Actual values</label><textarea id="regActual">3, 5, 7, 9</textarea><label for="regPredicted">Predicted values</label><textarea id="regPredicted">2.5, 5.5, 6, 10</textarea><button onclick="calculateRegressionErrors()">Calculate regression metrics</button><div id="regressionMetricsResult" class="result" aria-live="polite">Enter paired values and calculate.</div></div>
+</div></section><section id="formulaSection" class="hidden"><div class="card"><div class="hero-kicker" style="color:var(--accent)">Study reference</div><h2 style="font-size:27px;margin-top:8px">Statistics Formula Library</h2><p>Review common introductory statistics formulas and what they mean.</p><div class="formula-grid">
 <article class="formula-card"><h3>Mean</h3><div class="formula-math">x̄ = Σx / n</div><p>Add observations and divide by their count.</p></article>
 <article class="formula-card"><h3>Population variance</h3><div class="formula-math">σ² = Σ(x − μ)² / N</div><p>Average squared distance from the population mean.</p></article>
 <article class="formula-card"><h3>Sample variance</h3><div class="formula-math">s² = Σ(x − x̄)² / (n − 1)</div><p>Uses n − 1 when a sample estimates population variability.</p></article>
@@ -703,12 +599,13 @@ Results appear here
 
 <footer class="site-footer">
   <div>
-    <div class="footer-brand">∑ Statistics Suite</div>
+    <div class="footer-brand"><img src="statistics-suite-icon.webp" alt=""> Statistics Suite</div>
     <p class="footer-description">An educational statistics workspace for learning, exploring data, and practicing statistical calculations.</p>
   </div>
   <div class="footer-links" aria-label="Footer navigation">
     <button onclick="showSection('homeSection')">Home</button>
     <button onclick="showSection('learnSection')">Learning Center</button>
+    <button onclick="showSection('mlToolsSection')">ML & RapidMiner</button>
     <button onclick="showSection('formulaSection')">Formula Library</button>
     <button onclick="showSection('aboutSection')">About & FAQ</button>
     <button onclick="showSection('statsSection')">Statistics Tools</button>
@@ -723,6 +620,7 @@ Results appear here
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
   <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
+  <button class="nav-btn" data-section="mlToolsSection" onclick="showSection('mlToolsSection')">⌘<br>ML</button>
   <button class="nav-btn" data-section="formulaSection" onclick="showSection('formulaSection')">ƒ<br>Formulas</button>
 </nav>
 <script>
@@ -891,6 +789,36 @@ function renderScatterPlot(x,y,slope,intercept){
  const dots=x.map((v,i)=>'<circle class="chart-point" cx="'+px(v).toFixed(2)+'" cy="'+py(y[i]).toFixed(2)+'" r="5" fill="var(--accent)"><title>Point '+(i+1)+': ('+v+', '+y[i]+')</title></circle>').join("");
  const line='<line x1="'+px(x0).toFixed(2)+'" y1="'+py(slope*x0+intercept).toFixed(2)+'" x2="'+px(x1).toFixed(2)+'" y2="'+py(slope*x1+intercept).toFixed(2)+'" stroke="#d97706" stroke-width="3"/>';
  return '<div class="chart-panel"><h3>Scatter plot and regression line</h3><p class="chart-caption">Hover over a point to inspect its X and Y values.</p><svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Scatter plot with fitted regression line"><line x1="'+l+'" y1="'+(t+ph)+'" x2="'+(w-r)+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/><line x1="'+l+'" y1="'+t+'" x2="'+l+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/>'+line+dots+'<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-size="11" fill="currentColor">X values</text><text x="13" y="'+h/2+'" transform="rotate(-90 13 '+h/2+')" text-anchor="middle" font-size="11" fill="currentColor">Y values</text></svg></div>';
+}
+function parseNumericList(value,label){
+ const parts=value.split(",").map(part=>part.trim()).filter(Boolean);
+ if(!parts.length)throw new Error(label+" must contain at least one number.");
+ const values=parts.map(Number);
+ if(values.some(v=>!Number.isFinite(v)))throw new Error(label+" must contain only valid numbers separated by commas.");
+ return values;
+}
+function calculateMLMetrics(){
+ const ids=["mlTP","mlFP","mlTN","mlFN"],values=ids.map(id=>Number(document.getElementById(id).value)),out=document.getElementById("mlMetricsResult");
+ if(values.some((v,i)=>!Number.isInteger(v)||v<0||document.getElementById(ids[i]).value==="")){out.textContent="Enter whole-number counts of zero or greater in all four fields.";return;}
+ const [tp,fp,tn,fn]=values,total=tp+fp+tn+fn,accuracy=total?(tp+tn)/total:null,precision=tp+fp?tp/(tp+fp):null,recall=tp+fn?tp/(tp+fn):null,specificity=tn+fp?tn/(tn+fp):null,f1=(2*tp+fp+fn)===0?null:(2*tp)/(2*tp+fp+fn);
+ const fmt=v=>v===null?"N/A":(v*100).toFixed(2)+"%";
+ out.innerHTML='<p><b>Total observations:</b> '+total+'</p><div class="ml-metric-grid">'+[['Accuracy',fmt(accuracy)],['Precision',fmt(precision)],['Recall / Sensitivity',fmt(recall)],['Specificity',fmt(specificity)],['F1-score',fmt(f1)]].map(([k,v])=>'<div class="ml-metric"><strong>'+k+'</strong><span>'+v+'</span></div>').join("")+'</div><p class="chart-caption">A metric may show N/A when its denominator is zero. Interpret these results together with class balance and the cost of each error.</p>';
+ addHistory("Classification metrics calculated");
+}
+function calculateNormalization(){
+ const out=document.getElementById("normalizationResult");
+ try{const values=parseNumericList(document.getElementById("normalizationValues").value,"Dataset"),min=Math.min(...values),max=Math.max(...values),mean=values.reduce((a,b)=>a+b,0)/values.length,sd=Math.sqrt(values.reduce((a,b)=>a+(b-mean)**2,0)/values.length);
+ const rows=values.map((v,i)=>'<tr><td>'+(i+1)+'</td><td>'+v+'</td><td>'+(max===min?"N/A":((v-min)/(max-min)).toFixed(4))+'</td><td>'+(sd===0?"N/A":((v-mean)/sd).toFixed(4))+'</td></tr>').join("");
+ out.innerHTML='<p><b>Minimum:</b> '+min+' &nbsp; <b>Maximum:</b> '+max+' &nbsp; <b>Mean:</b> '+mean.toFixed(4)+' &nbsp; <b>Population SD:</b> '+sd.toFixed(4)+'</p><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Original</th><th>Min-max (0–1)</th><th>Z-score</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="chart-caption">If all values are equal, scaled values are N/A because the denominator is zero.</p>';addHistory("Dataset normalization calculated");
+ }catch(error){out.textContent=error.message;}
+}
+function calculateRegressionErrors(){
+ const out=document.getElementById("regressionMetricsResult");
+ try{const actual=parseNumericList(document.getElementById("regActual").value,"Actual values"),pred=parseNumericList(document.getElementById("regPredicted").value,"Predicted values");
+ if(actual.length!==pred.length)throw new Error("Actual and predicted lists must contain the same number of values.");
+ const n=actual.length,errors=actual.map((v,i)=>v-pred[i]),mae=errors.reduce((a,e)=>a+Math.abs(e),0)/n,mse=errors.reduce((a,e)=>a+e*e,0)/n,rmse=Math.sqrt(mse),mean=actual.reduce((a,v)=>a+v,0)/n,ssTot=actual.reduce((a,v)=>a+(v-mean)**2,0),ssRes=errors.reduce((a,e)=>a+e*e,0),r2=ssTot===0?null:1-ssRes/ssTot;
+ out.innerHTML='<div class="ml-metric-grid">'+[['MAE',mae.toFixed(4)],['MSE',mse.toFixed(4)],['RMSE',rmse.toFixed(4)],['R²',r2===null?"N/A (constant actual values)":r2.toFixed(4)]].map(([k,v])=>'<div class="ml-metric"><strong>'+k+'</strong><span>'+v+'</span></div>').join("")+'</div><p class="chart-caption">Lower MAE, MSE and RMSE indicate smaller prediction errors. R² can be negative when predictions are worse than using the actual-value mean as a baseline.</p>';addHistory("Regression error metrics calculated");
+ }catch(error){out.textContent=error.message;}
 }
 function searchSite(query){
  const panel=document.getElementById('siteSearchResults');if(!panel)return;const term=query.trim().toLowerCase();panel.replaceChildren();if(!term){panel.classList.add('hidden');return;}
