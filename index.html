@@ -105,6 +105,24 @@ button,.nav-btn{min-height:44px}
 .dark .sidebar-brand .brand-name{color:#fff}
 .dark .sidebar .sidebar-label{color:#a9bfd9}
 .dark .sidebar .side-nav button{color:#dbeafe}
+/* Phase 3: CSV data explorer */
+.file-picker{display:block;width:100%;padding:13px;background:var(--surface-soft);border:1px dashed var(--accent);border-radius:12px;color:var(--text);font-size:14px}
+.check-row{display:flex;align-items:center;gap:9px;margin:12px 0;color:var(--muted);font-size:13px}
+.check-row input{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+.data-preview{width:100%;overflow:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}
+.data-preview table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}
+.data-preview th,.data-preview td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border)}
+.data-preview th{background:var(--surface-soft);color:var(--primary)}
+.chart-list{display:grid;gap:10px;margin-top:15px}
+.chart-row{display:grid;grid-template-columns:minmax(80px,120px) 1fr 42px;gap:9px;align-items:center;font-size:12px}
+.chart-track{height:13px;background:var(--surface-soft);border-radius:20px;overflow:hidden}
+.chart-fill{height:100%;background:var(--accent);border-radius:20px}
+.chart-count{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+ .file-picker{font-size:13px;padding:12px}
+ .chart-row{grid-template-columns:75px 1fr 34px;gap:7px}
+ .data-preview th,.data-preview td{padding:8px}
+}
 </style>
 </head>
 <body>
@@ -129,6 +147,7 @@ button,.nav-btn{min-height:44px}
     <button data-section="statsSection" onclick="showSection('statsSection')"><span class="nav-icon">▦</span> Descriptive Statistics</button>
     <button data-section="probabilitySection" onclick="showSection('probabilitySection')"><span class="nav-icon">◉</span> Probability</button>
     <button data-section="regressionSection" onclick="showSection('regressionSection')"><span class="nav-icon">⌁</span> Correlation & Regression</button>
+    <button data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')"><span class="nav-icon">▥</span> CSV Data Explorer</button>
   </nav>
   <div class="sidebar-label">More tools</div>
   <nav class="side-nav">
@@ -559,17 +578,191 @@ Results appear here
 </div>
 
 </section>
-  
+<section id="dataAnalysisSection" class="hidden">
+  <div class="card">
+    <h2>▥ CSV Data Explorer</h2>
+    <div class="lesson-tip">Upload a CSV file to preview its rows, choose a numeric column, and explore a summary with a simple distribution chart. Your file is processed in this browser and is not uploaded to a server.</div>
+    <label for="csvFile">Choose a CSV file</label>
+    <input class="file-picker" type="file" id="csvFile" accept=".csv,text/csv" onchange="loadCSVFile(event)">
+    <label class="check-row"><input type="checkbox" id="csvHasHeader" checked onchange="refreshCSVView()"> First row contains column names</label>
+    <div id="csvStatus" class="result" aria-live="polite">Choose a CSV file to begin.</div>
+  </div>
+  <div class="card hidden" id="csvPreviewCard">
+    <h2>Dataset Preview</h2>
+    <p id="csvDatasetInfo">No dataset loaded.</p>
+    <div class="data-preview" id="csvPreview"></div>
+  </div>
+  <div class="card hidden" id="csvAnalysisCard">
+    <h2>Numeric Column Summary</h2>
+    <label for="csvColumnSelect">Select a numeric column</label>
+    <select id="csvColumnSelect" onchange="analyzeCSVColumn()"></select>
+    <div id="csvSummary" class="stats-grid"></div>
+    <h3>Value Distribution</h3>
+    <p>Values are grouped into up to six ranges to help you see their distribution.</p>
+    <div id="csvChart" class="chart-list" role="img" aria-label="Distribution chart for selected numeric column"></div>
+  </div>
+</section>
+
 </div>
 <nav class="bottom-nav" aria-label="Mobile navigation">
   <button class="nav-btn active" data-section="homeSection" onclick="showSection('homeSection')">⌂<br>Home</button>
   <button class="nav-btn" data-section="statsSection" onclick="showSection('statsSection')">▦<br>Stats</button>
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
-  <button class="nav-btn" data-section="regressionSection" onclick="showSection('regressionSection')">⌁<br>Analysis</button>
+  <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
 </nav>
 <script>
 let historyData=[];
+
+// CSV Data Explorer: data stays in the current browser session.
+let csvRows=[];
+let csvHeaders=[];
+let csvFileName="";
+function parseCSVText(text){
+  const rows=[]; let row=[]; let cell=""; let quoted=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){
+      if(quoted && text[i+1]==='"'){cell+='"';i++;}
+      else quoted=!quoted;
+    }else if(ch==="," && !quoted){
+      row.push(cell);cell="";
+    }else if((ch==="\\n"||ch==="\\r")&&!quoted){
+      if(ch==="\\r"&&text[i+1]==="\\n")i++;
+      row.push(cell);cell="";
+      if(row.some(value=>value.trim()!==""))rows.push(row);
+      row=[];
+    }else{cell+=ch;}
+  }
+  row.push(cell);
+  if(row.some(value=>value.trim()!==""))rows.push(row);
+  return rows;
+}
+function loadCSVFile(event){
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){
+    document.getElementById("csvStatus").textContent="Please choose a CSV file smaller than 5 MB.";
+    event.target.value="";
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      csvRows=parseCSVText(String(reader.result||""));
+      csvFileName=file.name;
+      if(csvRows.length<2){
+        csvRows=[];
+        document.getElementById("csvStatus").textContent="The file needs a header/data row and at least one data row.";
+        return;
+      }
+      refreshCSVView();
+    }catch(error){
+      document.getElementById("csvStatus").textContent="Unable to read this CSV file. Please check its format.";
+    }
+  };
+  reader.onerror=function(){
+    document.getElementById("csvStatus").textContent="The file could not be read. Please try again.";
+  };
+  reader.readAsText(file);
+}
+function refreshCSVView(){
+  if(!csvRows.length)return;
+  const hasHeader=document.getElementById("csvHasHeader").checked;
+  const width=Math.max(...csvRows.map(row=>row.length));
+  const rawHeaders=hasHeader?csvRows[0]:Array.from({length:width},(_,i)=>"Column "+(i+1));
+  csvHeaders=Array.from({length:width},(_,i)=>(rawHeaders[i]||"Column "+(i+1)).trim()||"Column "+(i+1));
+  const body=hasHeader?csvRows.slice(1):csvRows;
+  const info=document.getElementById("csvDatasetInfo");
+  info.textContent=csvFileName+" · "+body.length+" rows · "+width+" columns";
+  const preview=document.getElementById("csvPreview");
+  preview.replaceChildren();
+  const table=document.createElement("table");
+  const thead=document.createElement("thead");
+  const headRow=document.createElement("tr");
+  csvHeaders.forEach(label=>{
+    const th=document.createElement("th");th.textContent=label;headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);table.appendChild(thead);
+  const tbody=document.createElement("tbody");
+  body.slice(0,8).forEach(row=>{
+    const tr=document.createElement("tr");
+    csvHeaders.forEach((_,index)=>{
+      const td=document.createElement("td");td.textContent=row[index]??"";tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);preview.appendChild(table);
+  document.getElementById("csvPreviewCard").classList.remove("hidden");
+  const select=document.getElementById("csvColumnSelect");
+  select.replaceChildren();
+  const numericColumns=[];
+  csvHeaders.forEach((header,index)=>{
+    const values=body.map(row=>(row[index]??"").trim()).filter(value=>value!=="");
+    if(values.length>0&&values.every(value=>Number.isFinite(Number(value)))){
+      numericColumns.push({header,index});
+      const option=document.createElement("option");option.value=String(index);option.textContent=header;select.appendChild(option);
+    }
+  });
+  const status=document.getElementById("csvStatus");
+  status.textContent="Loaded "+csvFileName+". Showing up to 8 preview rows.";
+  const analysisCard=document.getElementById("csvAnalysisCard");
+  if(numericColumns.length===0){
+    analysisCard.classList.add("hidden");
+    status.textContent+=" No numeric columns were detected.";
+    return;
+  }
+  analysisCard.classList.remove("hidden");
+  analyzeCSVColumn();
+}
+function analyzeCSVColumn(){
+  if(!csvRows.length)return;
+  const hasHeader=document.getElementById("csvHasHeader").checked;
+  const body=hasHeader?csvRows.slice(1):csvRows;
+  const index=Number(document.getElementById("csvColumnSelect").value);
+  const values=body.map(row=>Number((row[index]??"").trim())).filter(Number.isFinite);
+  if(!values.length)return;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const avg=values.reduce((sum,value)=>sum+value,0)/values.length;
+  const med=sorted.length%2?sorted[(sorted.length-1)/2]:(sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+  const varianceValue=values.reduce((sum,value)=>sum+(value-avg)**2,0)/values.length;
+  const metrics=[
+    ["Valid values",values.length],
+    ["Mean",avg.toFixed(4)],
+    ["Median",med.toFixed(4)],
+    ["Minimum",sorted[0]],
+    ["Maximum",sorted[sorted.length-1]],
+    ["Std. deviation",Math.sqrt(varianceValue).toFixed(4)]
+  ];
+  const summary=document.getElementById("csvSummary");summary.replaceChildren();
+  metrics.forEach(([label,value])=>{
+    const item=document.createElement("div");item.className="stat-card";
+    const heading=document.createElement("h4");heading.textContent=label;
+    const result=document.createElement("div");result.textContent=String(value);
+    item.append(heading,result);summary.appendChild(item);
+  });
+  const min=sorted[0],max=sorted[sorted.length-1];
+  const binCount=Math.min(6,Math.max(1,Math.ceil(Math.sqrt(values.length))));
+  const span=max-min;
+  const counts=Array(binCount).fill(0);
+  values.forEach(value=>{
+    const bin=span===0?0:Math.min(binCount-1,Math.floor((value-min)/span*binCount));
+    counts[bin]++;
+  });
+  const chart=document.getElementById("csvChart");chart.replaceChildren();
+  const maxCount=Math.max(...counts,1);
+  counts.forEach((count,bin)=>{
+    const low=span===0?min:min+span*bin/binCount;
+    const high=span===0?max:min+span*(bin+1)/binCount;
+    const row=document.createElement("div");row.className="chart-row";
+    const label=document.createElement("span");label.textContent=low.toFixed(2)+"–"+high.toFixed(2);
+    const track=document.createElement("div");track.className="chart-track";
+    const fill=document.createElement("div");fill.className="chart-fill";fill.style.width=(count/maxCount*100)+"%";track.appendChild(fill);
+    const total=document.createElement("span");total.className="chart-count";total.textContent=String(count);
+    row.append(label,track,total);chart.appendChild(row);
+  });
+}
+
 function showSection(id){
   document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
   const target=document.getElementById(id);
