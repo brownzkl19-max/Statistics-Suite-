@@ -85,6 +85,22 @@ body.dark .home-note{background:var(--surface);border-color:var(--border)}
 @media(max-width:900px){.sidebar{width:220px}.topbar{margin-left:220px;padding:0 22px}.container{margin-left:220px;padding:24px 22px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){body{padding-bottom:72px}.sidebar{display:none}.topbar{height:66px;margin-left:0;padding:0 16px}.brand-mark{width:37px;height:37px}.brand-name{font-size:16px}.topbar-note{display:none}.container{margin:0;padding:18px 14px 30px}.home-hero{padding:25px 21px}.card{padding:17px}.tool-grid{grid-template-columns:1fr 1fr;gap:10px}.tool-card{padding:14px;min-height:174px}.tool-card .tool-icon{width:36px;height:36px}.tool-card h3{font-size:13px}.tool-card p{font-size:11px}.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:25;background:var(--surface);border-top:1px solid var(--border);padding:7px 3px calc(7px + env(safe-area-inset-bottom));justify-content:space-around;gap:2px}.bottom-nav .nav-btn{flex:1;min-width:0;width:auto;background:transparent;color:var(--muted);font-size:10px;padding:5px 2px;border-radius:8px}.bottom-nav .nav-btn.active{background:var(--accent-soft);color:var(--accent)}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-heading{align-items:start;flex-direction:column}}
 @media(max-width:370px){.tool-grid{grid-template-columns:1fr}.topbar-actions{gap:4px}.brand-subtitle{display:none}}
+
+/* Phase 2: mobile usability and accessible touch targets */
+select{width:100%;padding:12px 14px;margin:9px 0 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit}
+button,.nav-btn{min-height:44px}
+.card{min-width:0}
+.result table{min-width:260px}
+@media(max-width:640px){
+  .container{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .card{border-radius:13px}
+  .card button{width:100%}
+  .hero-actions button{width:auto}
+  .bottom-nav{min-height:62px}
+  .bottom-nav .nav-btn{min-height:48px}
+  input,textarea,select{font-size:16px}
+}
+@media(hover:none){button:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -159,10 +175,13 @@ body.dark .home-note{background:var(--surface);border-color:var(--border)}
 They summarize data using measures such as Mean, Median, Mode, Range, Variance, and Standard Deviation.
 
 </div>
-<textarea
-id="dataInput"
-rows="5"
-placeholder="Example: 12,15,18,20,25"></textarea>
+<label for="dataInput">Dataset</label>
+<textarea id="dataInput" rows="5" inputmode="decimal" placeholder="Example: 12, 15, 18, 20, 25"></textarea>
+<label for="varianceType">Variance and standard deviation type</label>
+<select id="varianceType">
+  <option value="population">Population (divide by N)</option>
+  <option value="sample">Sample (divide by N − 1)</option>
+</select>
 <button onclick="calculateStats()">
 Calculate
 </button>
@@ -223,9 +242,10 @@ Results appear here
 <section id="historySection" class="hidden">
 <div class="card">
 <h2>📜 History</h2>
-<div id="historyList">
-No calculations yet.
+<div style="display:flex;justify-content:flex-end;margin:8px 0 12px">
+<button type="button" style="width:auto;background:#e8f0ff;color:#163a63" onclick="clearHistory()">Clear history</button>
 </div>
+<div id="historyList" aria-live="polite">No calculations yet.</div>
 </div>
 </section>
 
@@ -553,35 +573,47 @@ function showSection(id){
   document.querySelectorAll("[data-section]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.section===id);
   });
-});
-document
-.getElementById(id)
-.classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 function toggleTheme(){
   document.body.classList.toggle("dark");
 }
+function renderHistory(){
+  const list=document.getElementById("historyList");
+  if(!list) return;
+  list.replaceChildren();
+  if(historyData.length===0){
+    list.textContent="No calculations yet.";
+    return;
+  }
+  historyData.forEach(item=>{
+    const row=document.createElement("div");
+    row.className="history-item";
+    row.textContent=item;
+    list.appendChild(row);
+  });
+}
 function addHistory(item){
-historyData.unshift(item);
-let html="";
-historyData.forEach(h=>{
-html+=`
-<div class="history-item">
-${h}
-</div>
-`;
-});
-document
-.getElementById("historyList")
-.innerHTML=html;
+  historyData.unshift(item);
+  historyData=historyData.slice(0,50);
+  try{localStorage.setItem("statisticsSuiteHistory",JSON.stringify(historyData));}catch(error){}
+  renderHistory();
+}
+function clearHistory(){
+  historyData=[];
+  try{localStorage.removeItem("statisticsSuiteHistory");}catch(error){}
+  renderHistory();
 }
 function parseNumbers(id){
-return document
-.getElementById(id)
-.value
-.split(",")
-.map(v=>parseFloat(v.trim()))
-.filter(v=>!isNaN(v));
+  const raw=document.getElementById(id).value.trim();
+  if(!raw) return [];
+  const tokens=raw.split(/[,;\\s]+/).filter(Boolean);
+  const values=tokens.map(token=>Number(token));
+  if(values.some(value=>!Number.isFinite(value))){
+    alert("Some entries are not valid numbers. Please use numbers separated by commas, spaces, or new lines.");
+    return [];
+  }
+  return values;
 }
 function mean(data){
 return data.reduce(
@@ -599,29 +631,20 @@ return d.length%2
 : (d[mid-1]+d[mid])/2;
 }
 function mode(data){
-let count={};
-data.forEach(v=>{
-count[v]=(count[v]||0)+1;
-});
-let max=Math.max(
-...Object.values(count)
-);
-return Object.keys(count)
-.filter(k=>count[k]===max)
-.join(", ");
+  const count={};
+  data.forEach(value=>{count[value]=(count[value]||0)+1;});
+  const max=Math.max(...Object.values(count));
+  if(max===1) return "No mode (all values occur once)";
+  return Object.keys(count).filter(key=>count[key]===max).join(", ");
 }
-function variance(data){
-let m=mean(data);
-return data.reduce(
-(sum,x)=>
-sum+(x-m)*(x-m),
-0
-)/data.length;
+function variance(data,type="population"){
+  const divisor=type==="sample"?data.length-1:data.length;
+  if(divisor<=0) return NaN;
+  const average=mean(data);
+  return data.reduce((sum,value)=>sum+(value-average)**2,0)/divisor;
 }
-function stddev(data){
-return Math.sqrt(
-variance(data)
-);
+function stddev(data,type="population"){
+  return Math.sqrt(variance(data,type));
 }
 function percentile(sorted,p){
 let index=
@@ -657,178 +680,78 @@ iqr:q3-q1
 };
 }
 function calculateStats(){
-let data=
-parseNumbers(
-"dataInput"
-);
-if(data.length===0){
-alert(
-"Please enter values."
-);
-return;
-}
-let q=
-quartiles(data);
-let total=
-data.reduce(
-(a,b)=>a+b,
-0
-);
-let min=
-Math.min(...data);
-let max= Math.max(...data);
-let result=`
-<div class="stats-grid">
-<div class="stat-card">
-<h4>N</h4>
-<div>${data.length}</div>
-</div>
-<div class="stat-card">
-<h4>Sum</h4>
-<div>${total.toFixed(2)}</div>
-</div>
-<div class="stat-card">
-<h4>Mean</h4>
-<div>${mean(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Median</h4>
-<div>${median(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Mode</h4>
-<div>${mode(data)}</div>
-</div>
-<div class="stat-card">
-<h4>Range</h4>
-<div>${max-min}</div>
-</div>
-<div class="stat-card">
-<h4>Variance</h4>
-<div>${variance(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Std Dev</h4>
-<div>${stddev(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Minimum</h4>
-<div>${min}</div>
-</div>
-<div class="stat-card">
-<h4>Maximum</h4>
-<div>${max}</div>
-</div>
-<div class="stat-card"> <h4>Q1</h4>
-<div>${q.q1.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Q2</h4>
-<div>${q.q2.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Q3</h4>
-<div>${q.q3.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>IQR</h4>
-<div>${q.iqr.toFixed(4)}</div>
-</div>
-</div>
-`;
-document
-.getElementById(
-"statsResult"
-)
-.innerHTML=result;
-addHistory(
-"Statistics calculated"
-);
+  const data=parseNumbers("dataInput");
+  if(data.length===0){alert("Please enter at least one valid number.");return;}
+  const type=document.getElementById("varianceType").value;
+  if(type==="sample" && data.length<2){alert("Sample variance requires at least two values.");return;}
+  const q=quartiles(data);
+  const total=data.reduce((a,b)=>a+b,0);
+  const min=Math.min(...data), max=Math.max(...data);
+  const varianceValue=variance(data,type);
+  const result=`
+  <div class="lesson-tip">Results use the ${type} variance formula.</div>
+  <div class="stats-grid">
+    <div class="stat-card"><h4>N</h4><div>${data.length}</div></div>
+    <div class="stat-card"><h4>Sum</h4><div>${total.toFixed(2)}</div></div>
+    <div class="stat-card"><h4>Mean</h4><div>${mean(data).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Median</h4><div>${median(data).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Mode</h4><div>${mode(data)}</div></div>
+    <div class="stat-card"><h4>Range</h4><div>${(max-min).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>${type==="sample"?"Sample variance":"Population variance"}</h4><div>${varianceValue.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Standard deviation</h4><div>${stddev(data,type).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Minimum</h4><div>${min}</div></div>
+    <div class="stat-card"><h4>Maximum</h4><div>${max}</div></div>
+    <div class="stat-card"><h4>Q1</h4><div>${q.q1.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Q2</h4><div>${q.q2.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Q3</h4><div>${q.q3.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>IQR</h4><div>${q.iqr.toFixed(4)}</div></div>
+  </div>`;
+  document.getElementById("statsResult").innerHTML=result;
+  addHistory("Descriptive statistics calculated ("+type+")");
 }
 function factorial(n){
-if(n<0) return 0;
-let r=1;
-for(
-let i=2;
-i<=n;
-i++
-){
-r*=i;
+  if(!Number.isInteger(n)||n<0||n>170) return NaN;
+  let result=1;
+  for(let i=2;i<=n;i++) result*=i;
+  return result;
 }
-return r;
+function readNAndR(){
+  const n=Number(document.getElementById("nValue").value);
+  const r=Number(document.getElementById("rValue").value);
+  if(!Number.isInteger(n)||n<0||n>170){
+    alert("Enter a whole number for n from 0 to 170.");
+    return null;
+  }
+  if(!Number.isInteger(r)||r<0||r>n){
+    alert("Enter a whole number for r from 0 to n.");
+    return null;
+  }
+  return {n,r};
 }
 function factorialCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value );
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`${n}! = ${factorial(n)}`;
-addHistory(
-`Factorial (${n})`
-);
+  const raw=document.getElementById("nValue").value;
+  const n=Number(raw);
+  if(raw.trim()===""||!Number.isInteger(n)||n<0||n>170){
+    alert("Enter a whole number for n from 0 to 170.");
+    return;
+  }
+  const answer=factorial(n);
+  document.getElementById("probabilityResult").textContent=n+"! = "+answer.toLocaleString();
+  addHistory("Factorial: "+n+"! = "+answer);
 }
 function permutationCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value
-);
-let r=parseInt(
-document
-.getElementById(
-"rValue"
-).value
-);
-let result=
-factorial(n)
-/
-factorial(n-r);
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`nPr = ${result}`;
-addHistory(
-`𝑛𝑃{r}`
-);
+  const values=readNAndR(); if(!values) return;
+  const {n,r}=values;
+  const answer=factorial(n)/factorial(n-r);
+  document.getElementById("probabilityResult").textContent=n+"P"+r+" = "+answer.toLocaleString();
+  addHistory("Permutation: "+n+"P"+r+" = "+answer);
 }
 function combinationCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value );
-let r=parseInt(
-document
-.getElementById(
-"rValue"
-).value
-);
-let result=
-factorial(n)
-/
-(
-factorial(r)
-*
-factorial(n-r)
-);
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`nCr = ${result}`;
-addHistory(
-`𝑛𝐶{r}`
-);
+  const values=readNAndR(); if(!values) return;
+  const {n,r}=values;
+  const answer=factorial(n)/(factorial(r)*factorial(n-r));
+  document.getElementById("probabilityResult").textContent=n+"C"+r+" = "+answer.toLocaleString();
+  addHistory("Combination: "+n+"C"+r+" = "+answer);
 }
 function calculateRegression(){
 let x=
@@ -848,7 +771,16 @@ alert(
 "X and Y must match."
 );
 return;
-} let meanX=
+} 
+if(x.every(value=>value===x[0])){
+  alert("X values must contain at least two different numbers to calculate regression.");
+  return;
+}
+if(y.every(value=>value===y[0])){
+  alert("Y values must contain at least two different numbers to calculate correlation.");
+  return;
+}
+let meanX=
 mean(x);
 let meanY=
 mean(y);
@@ -1182,6 +1114,11 @@ addHistory(
 
 }
   
+try{
+    const saved=JSON.parse(localStorage.getItem("statisticsSuiteHistory")||"[]");
+    if(Array.isArray(saved)) historyData=saved.filter(item=>typeof item==="string").slice(0,50);
+  }catch(error){historyData=[];}
+  renderHistory();
 showSection(
 "homeSection"
 );
