@@ -607,7 +607,7 @@ function clearHistory(){
 function parseNumbers(id){
   const raw=document.getElementById(id).value.trim();
   if(!raw) return [];
-  const tokens=raw.split(/[,;\\s]+/).filter(Boolean);
+  const tokens=raw.split(/[,;\s]+/).filter(Boolean);
   const values=tokens.map(token=>Number(token));
   if(values.some(value=>!Number.isFinite(value))){
     alert("Some entries are not valid numbers. Please use numbers separated by commas, spaces, or new lines.");
@@ -716,13 +716,15 @@ function factorial(n){
   return result;
 }
 function readNAndR(){
-  const n=Number(document.getElementById("nValue").value);
-  const r=Number(document.getElementById("rValue").value);
-  if(!Number.isInteger(n)||n<0||n>170){
+  const nRaw=document.getElementById("nValue").value;
+  const rRaw=document.getElementById("rValue").value;
+  const n=Number(nRaw);
+  const r=Number(rRaw);
+  if(nRaw.trim()===""||!Number.isInteger(n)||n<0||n>170){
     alert("Enter a whole number for n from 0 to 170.");
     return null;
   }
-  if(!Number.isInteger(r)||r<0||r>n){
+  if(rRaw.trim()===""||!Number.isInteger(r)||r<0||r>n){
     alert("Enter a whole number for r from 0 to n.");
     return null;
   }
