@@ -13,6 +13,8 @@
 <meta name="twitter:card" content="summary">
   <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#163a63">
+<link rel="canonical" href="https://brownzkl19-max.github.io/Statistics-Suite-/">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root{
   color-scheme:light;
@@ -146,6 +148,14 @@ button,.nav-btn{min-height:44px}
 .footer-links button{width:auto;min-height:36px;padding:7px 9px;background:transparent;color:var(--muted);font-size:12px}
 .footer-links button:hover{background:var(--accent-soft);color:var(--accent)}
 .footer-bottom{grid-column:1/-1;border-top:1px solid var(--border);padding-top:13px;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.site-search-wrap{position:relative;width:min(30vw,300px)}.site-search{margin:0;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);font-size:13px}
+.search-results{position:absolute;right:0;top:calc(100% + 9px);width:min(340px,90vw);max-height:55vh;overflow:auto;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);z-index:50}
+.search-results button{display:block;width:100%;padding:10px 12px;margin:2px 0;text-align:left;background:transparent;color:var(--text);font-size:13px}.search-results button:hover{background:var(--accent-soft);color:var(--accent);transform:none}
+.formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.formula-card{min-width:0;padding:16px;background:var(--surface-soft);border:1px solid var(--border);border-radius:12px}
+.formula-card h3{margin:0 0 9px;font-size:15px;color:var(--primary)}.formula-card p{margin:9px 0 0;font-size:13px;color:var(--muted)}
+.formula-math{padding:11px;background:var(--surface);border-radius:8px;font-family:Georgia,serif;font-size:16px;overflow-wrap:anywhere;color:var(--text)}
+@media(max-width:640px){.site-search-wrap{width:min(32vw,120px)}.theme-button span{display:none}.theme-button{padding:8px 10px}.site-search{padding:8px;font-size:12px}.formula-grid{grid-template-columns:1fr}.formula-math{font-size:14px}}
 @media(max-width:640px){
  .about-grid{grid-template-columns:1fr}
  .site-footer{grid-template-columns:1fr;gap:12px;margin-top:26px}
@@ -161,6 +171,7 @@ button,.nav-btn{min-height:44px}
     <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic Statistics Workspace</div></div>
   </div>
   <div class="topbar-actions">
+    <div class="site-search-wrap"><label class="visually-hidden" for="siteSearch">Search Statistics Suite</label><input id="siteSearch" class="site-search" type="search" placeholder="Search tools and formulas…" autocomplete="off" oninput="searchSite(this.value)"><div id="siteSearchResults" class="search-results hidden" role="listbox" aria-label="Search results"></div></div>
     <span class="topbar-note">Learn · Calculate · Understand</span>
     <button class="theme-button" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ <span>Theme</span></button>
   </div>
@@ -189,6 +200,7 @@ button,.nav-btn{min-height:44px}
   <nav class="side-nav">
     <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
     <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
+    <button data-section="formulaSection" onclick="showSection('formulaSection')"><span class="nav-icon">ƒ</span> Formula Library</button>
     <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
   </nav>
   <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
@@ -216,6 +228,7 @@ button,.nav-btn{min-height:44px}
     <article class="tool-card"><div class="tool-icon">▤</div><h3>Frequency Table</h3><p>Organize values and see how often each observation occurs.</p><button onclick="showSection('frequencySection')">Create table</button></article>
     <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
     <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
+    <article class="tool-card"><div class="tool-icon">ƒ</div><h3>Formula Library</h3><p>Review common statistical formulas with plain-language explanations and examples.</p><button onclick="showSection('formulaSection')">Browse formulas</button></article>
   </div>
   <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
@@ -634,6 +647,20 @@ Results appear here
   </div>
 </section>
 
+<section id="formulaSection" class="hidden"><div class="card"><div class="hero-kicker" style="color:var(--accent)">Study reference</div><h2 style="font-size:27px;margin-top:8px">Statistics Formula Library</h2><p>Review common introductory statistics formulas and what they mean.</p><div class="formula-grid">
+<article class="formula-card"><h3>Mean</h3><div class="formula-math">x̄ = Σx / n</div><p>Add observations and divide by their count.</p></article>
+<article class="formula-card"><h3>Population variance</h3><div class="formula-math">σ² = Σ(x − μ)² / N</div><p>Average squared distance from the population mean.</p></article>
+<article class="formula-card"><h3>Sample variance</h3><div class="formula-math">s² = Σ(x − x̄)² / (n − 1)</div><p>Uses n − 1 when a sample estimates population variability.</p></article>
+<article class="formula-card"><h3>Standard deviation</h3><div class="formula-math">σ = √σ² or s = √s²</div><p>The square root of variance, in the original data units.</p></article>
+<article class="formula-card"><h3>Range</h3><div class="formula-math">Maximum − Minimum</div><p>Difference between the largest and smallest observation.</p></article>
+<article class="formula-card"><h3>Z-score</h3><div class="formula-math">z = (x − μ) / σ</div><p>How many standard deviations an observation is from the mean.</p></article>
+<article class="formula-card"><h3>Interquartile range</h3><div class="formula-math">IQR = Q3 − Q1</div><p>Spread of the middle 50% of ordered observations.</p></article>
+<article class="formula-card"><h3>Permutation</h3><div class="formula-math">nPr = n! / (n − r)!</div><p>Counts arrangements when order matters.</p></article>
+<article class="formula-card"><h3>Combination</h3><div class="formula-math">nCr = n! / [r!(n − r)!]</div><p>Counts selections when order does not matter.</p></article>
+<article class="formula-card"><h3>Correlation</h3><div class="formula-math">r = Σ[(x − x̄)(y − ȳ)] / √[Σ(x − x̄)²Σ(y − ȳ)²]</div><p>Describes direction and strength of a linear relationship.</p></article>
+<article class="formula-card"><h3>Linear regression</h3><div class="formula-math">ŷ = a + bx</div><p>Estimates y using an intercept and slope.</p></article>
+<article class="formula-card"><h3>Coefficient of determination</h3><div class="formula-math">R² = r²</div><p>For simple linear regression, variation explained by the linear model.</p></article>
+</div><div class="lesson-tip">Notation and quartile methods can vary by course. Follow the method required by your instructor or research design.</div></div></section>
 <section id="aboutSection" class="hidden">
   <div class="card">
     <div class="hero-kicker" style="color:var(--accent)">About the platform</div>
@@ -682,6 +709,7 @@ Results appear here
   <div class="footer-links" aria-label="Footer navigation">
     <button onclick="showSection('homeSection')">Home</button>
     <button onclick="showSection('learnSection')">Learning Center</button>
+    <button onclick="showSection('formulaSection')">Formula Library</button>
     <button onclick="showSection('aboutSection')">About & FAQ</button>
     <button onclick="showSection('statsSection')">Statistics Tools</button>
     <button onclick="showSection('dataAnalysisSection')">CSV Explorer</button>
@@ -695,7 +723,7 @@ Results appear here
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
   <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
-  <button class="nav-btn" data-section="aboutSection" onclick="showSection('aboutSection')">ⓘ<br>Help</button>
+  <button class="nav-btn" data-section="formulaSection" onclick="showSection('formulaSection')">ƒ<br>Formulas</button>
 </nav>
 <script>
 let historyData=[];
@@ -849,6 +877,27 @@ function analyzeCSVColumn(){
   });
 }
 
+function renderHistogram(data,targetId){
+ const target=document.getElementById(targetId);if(!target||!data.length)return;
+ const sorted=[...data].sort((a,b)=>a-b),min=sorted[0],max=sorted[sorted.length-1],bins=Math.min(8,Math.max(1,Math.ceil(Math.sqrt(data.length)))),counts=Array(bins).fill(0),span=max-min;
+ data.forEach(v=>counts[span===0?0:Math.min(bins-1,Math.floor((v-min)/span*bins))]++);
+ const w=640,h=230,l=42,r=14,t=16,b=42,pw=w-l-r,ph=h-t-b,topCount=Math.max(...counts,1);
+ const bars=counts.map((count,i)=>{const bw=pw/bins*.68,x=l+(i+.16)*pw/bins,y=t+ph-count/topCount*ph,bh=count/topCount*ph,low=span===0?min:min+span*i/bins,high=span===0?max:min+span*(i+1)/bins;return '<g class="chart-point"><title>'+low.toPrecision(4)+' to '+high.toPrecision(4)+': '+count+' value(s)</title><rect x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" width="'+bw.toFixed(2)+'" height="'+bh.toFixed(2)+'" rx="5" fill="var(--accent)" opacity=".85"/><text x="'+(x+bw/2).toFixed(2)+'" y="'+(h-17)+'" text-anchor="middle" font-size="10" fill="currentColor">'+(i+1)+'</text></g>';}).join("");
+ target.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Histogram with '+bins+' value ranges"><line x1="'+l+'" y1="'+(t+ph)+'" x2="'+(w-r)+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".45"/>'+bars+'<text x="10" y="18" font-size="10" fill="currentColor">Count</text><text x="'+w/2+'" y="'+(h-2)+'" text-anchor="middle" font-size="10" fill="currentColor">Value range (bins numbered left to right)</text></svg>';
+}
+function renderScatterPlot(x,y,slope,intercept){
+ const w=640,h=280,l=48,r=20,t=16,b=42,pw=w-l-r,ph=h-t-b,minX=Math.min(...x),maxX=Math.max(...x),minY=Math.min(...y),maxY=Math.max(...y),padX=(maxX-minX)*.08||1,padY=(maxY-minY)*.12||1,x0=minX-padX,x1=maxX+padX,y0=minY-padY,y1=maxY+padY;
+ const px=v=>l+(v-x0)/(x1-x0)*pw,py=v=>t+ph-(v-y0)/(y1-y0)*ph;
+ const dots=x.map((v,i)=>'<circle class="chart-point" cx="'+px(v).toFixed(2)+'" cy="'+py(y[i]).toFixed(2)+'" r="5" fill="var(--accent)"><title>Point '+(i+1)+': ('+v+', '+y[i]+')</title></circle>').join("");
+ const line='<line x1="'+px(x0).toFixed(2)+'" y1="'+py(slope*x0+intercept).toFixed(2)+'" x2="'+px(x1).toFixed(2)+'" y2="'+py(slope*x1+intercept).toFixed(2)+'" stroke="#d97706" stroke-width="3"/>';
+ return '<div class="chart-panel"><h3>Scatter plot and regression line</h3><p class="chart-caption">Hover over a point to inspect its X and Y values.</p><svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Scatter plot with fitted regression line"><line x1="'+l+'" y1="'+(t+ph)+'" x2="'+(w-r)+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/><line x1="'+l+'" y1="'+t+'" x2="'+l+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/>'+line+dots+'<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-size="11" fill="currentColor">X values</text><text x="13" y="'+h/2+'" transform="rotate(-90 13 '+h/2+')" text-anchor="middle" font-size="11" fill="currentColor">Y values</text></svg></div>';
+}
+function searchSite(query){
+ const panel=document.getElementById('siteSearchResults');if(!panel)return;const term=query.trim().toLowerCase();panel.replaceChildren();if(!term){panel.classList.add('hidden');return;}
+ const matches=[...document.querySelectorAll('.container section')].map(section=>({id:section.id,title:section.querySelector('h2')?.textContent||section.id,text:section.textContent.toLowerCase()})).filter(item=>item.text.includes(term)).slice(0,8);
+ if(!matches.length){const empty=document.createElement('p');empty.textContent='No matching tools or topics found.';empty.className='chart-caption';panel.appendChild(empty);}
+ matches.forEach(item=>{const button=document.createElement('button');button.type='button';button.textContent=item.title;button.setAttribute('role','option');button.onclick=()=>{showSection(item.id);panel.classList.add('hidden');document.getElementById('siteSearch').value='';};panel.appendChild(button);});panel.classList.remove('hidden');
+}
 function showSection(id){
   document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
   const target=document.getElementById(id);
@@ -990,6 +1039,8 @@ function calculateStats(){
     <div class="stat-card"><h4>IQR</h4><div>${q.iqr.toFixed(4)}</div></div>
   </div>`;
   document.getElementById("statsResult").innerHTML=result;
+  const chartPanel=document.createElement("div");chartPanel.className="chart-panel";chartPanel.innerHTML='<h3>Dataset distribution</h3><p class="chart-caption">Hover over a bar to inspect its range and frequency.</p><div id="statsHistogram"></div>';
+  document.getElementById("statsResult").appendChild(chartPanel);renderHistogram(data,"statsHistogram");
   addHistory("Descriptive statistics calculated ("+type+")");
 }
 function factorial(n){
@@ -1134,6 +1185,7 @@ ${slope.toFixed(4)}
 x +
 ${intercept.toFixed(4)}
 `;
+document.getElementById("regressionResult").innerHTML += renderScatterPlot(x,y,slope,intercept);
 addHistory(
 "Regression calculated"
 );
@@ -1407,6 +1459,9 @@ try{
 showSection(
 "homeSection"
 );
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+ window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(error=>console.warn("Service worker registration failed:",error)));
+}
 </script>
 </body>
 </html>

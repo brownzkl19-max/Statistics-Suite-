@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brownzkl19-max.github.io/Statistics-Suite-/sitemap.xml
