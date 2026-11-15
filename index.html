@@ -151,29 +151,84 @@ line-height:1.5;
 </header>
 <div class="container">
 <section id="homeSection">
+
 <div class="card">
-<h2>Welcome</h2>
+
+<h2>📊 Statistics Suite</h2>
+
 <p>
-Statistics Suite v1.0
+Learn statistics, understand concepts, and use calculators all in one place.
 </p>
-<br>
-<ul style="padding-left:20px">
-<li>Descriptive Statistics</li>
-<li>Quartiles & IQR</li>
-<li>Probability Calculator</li>
-<li>Correlation Analysis</li>
-<li>Linear Regression</li>
-<li>History Tracking</li>
-</ul>
-<br>
-<button onclick="toggleTheme()">
-Toggle Dark / Light Mode
-</button>
+
 </div>
+
+<div class="card">
+
+<h2>📚 Learn Statistics</h2>
+
+<p>
+Understand Mean, Median, Quartiles, Z-Scores, Percentiles, Outliers, Correlation and more.
+</p>
+
+<button onclick="showSection('learnSection')">
+Start Learning →
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📊 Statistical Tools</h2>
+
+<p>
+Calculate descriptive statistics, quartiles, IQR, percentiles, z-scores and outliers.
+</p>
+
+<button onclick="showSection('statsSection')">
+Open Tools →
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📈 Data Analysis</h2>
+
+<p>
+Explore correlation and regression analysis.
+</p>
+
+<button onclick="showSection('regressionSection')">
+Open Analysis →
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>🎲 Probability Tools</h2>
+
+<p>
+Use Factorial, Permutation and Combination calculators.
+</p>
+
+<button onclick="showSection('probabilitySection')">
+Open Probability →
+</button>
+
+</div>
+
 </section>
 <section id="statsSection" class="hidden">
 <div class="card">
 <h2>📊 Descriptive Statistics</h2>
+  <div class="lesson-tip">
+
+💡 What are Descriptive Statistics?
+
+They summarize data using measures such as Mean, Median, Mode, Range, Variance, and Standard Deviation.
+
+</div>
 <textarea
 id="dataInput"
 rows="5"
@@ -291,7 +346,13 @@ Result will appear here
 <div class="card">
 
 <h2>🚨 Outlier Detector</h2>
+<div class="lesson-tip">
 
+💡 What is an Outlier?
+
+Outliers are unusual values that are much higher or lower than the rest of the dataset.
+
+</div>
 <textarea
 id="outlierData"
 rows="5"
@@ -319,7 +380,13 @@ Results appear here
 <div class="card">
 
 <h2>📈 Percentile Calculator</h2>
+<div class="lesson-tip">
 
+💡 What is a Percentile?
+
+A percentile tells you what percentage of values fall below a particular score.
+
+</div>
 <textarea
 id="percentileData"
 rows="5"
