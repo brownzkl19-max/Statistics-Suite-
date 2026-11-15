@@ -155,7 +155,7 @@ button,.nav-btn{min-height:44px}
 .formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.formula-card{min-width:0;padding:16px;background:var(--surface-soft);border:1px solid var(--border);border-radius:12px}
 .formula-card h3{margin:0 0 9px;font-size:15px;color:var(--primary)}.formula-card p{margin:9px 0 0;font-size:13px;color:var(--muted)}
 .formula-math{padding:11px;background:var(--surface);border-radius:8px;font-family:Georgia,serif;font-size:16px;overflow-wrap:anywhere;color:var(--text)}
-@media(max-width:640px){.site-search-wrap{width:min(43vw,180px)}.site-search{padding:8px;font-size:12px}.formula-grid{grid-template-columns:1fr}.formula-math{font-size:14px}}
+@media(max-width:640px){.site-search-wrap{width:min(32vw,120px)}.theme-button span{display:none}.theme-button{padding:8px 10px}.site-search{padding:8px;font-size:12px}.formula-grid{grid-template-columns:1fr}.formula-math{font-size:14px}}
 @media(max-width:640px){
  .about-grid{grid-template-columns:1fr}
  .site-footer{grid-template-columns:1fr;gap:12px;margin-top:26px}
@@ -228,8 +228,8 @@ button,.nav-btn{min-height:44px}
     <article class="tool-card"><div class="tool-icon">▤</div><h3>Frequency Table</h3><p>Organize values and see how often each observation occurs.</p><button onclick="showSection('frequencySection')">Create table</button></article>
     <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
     <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
+    <article class="tool-card"><div class="tool-icon">ƒ</div><h3>Formula Library</h3><p>Review common statistical formulas with plain-language explanations and examples.</p><button onclick="showSection('formulaSection')">Browse formulas</button></article>
   </div>
-  <article class="tool-card site-section"><div class="tool-icon">ƒ</div><h3>Formula Library</h3><p>Review common statistical formulas with plain-language explanations and examples.</p><button onclick="showSection('formulaSection')">Browse formulas</button></article>
   <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
 <section id="statsSection" class="hidden">
@@ -894,7 +894,7 @@ function renderScatterPlot(x,y,slope,intercept){
 }
 function searchSite(query){
  const panel=document.getElementById('siteSearchResults');if(!panel)return;const term=query.trim().toLowerCase();panel.replaceChildren();if(!term){panel.classList.add('hidden');return;}
- const matches=[...document.querySelectorAll('.container section')].map(section=>({id:section.id,title:section.querySelector('h2')?.textContent||section.id,text:section.innerText.toLowerCase()})).filter(item=>item.text.includes(term)).slice(0,8);
+ const matches=[...document.querySelectorAll('.container section')].map(section=>({id:section.id,title:section.querySelector('h2')?.textContent||section.id,text:section.textContent.toLowerCase()})).filter(item=>item.text.includes(term)).slice(0,8);
  if(!matches.length){const empty=document.createElement('p');empty.textContent='No matching tools or topics found.';empty.className='chart-caption';panel.appendChild(empty);}
  matches.forEach(item=>{const button=document.createElement('button');button.type='button';button.textContent=item.title;button.setAttribute('role','option');button.onclick=()=>{showSection(item.id);panel.classList.add('hidden');document.getElementById('siteSearch').value='';};panel.appendChild(button);});panel.classList.remove('hidden');
 }
