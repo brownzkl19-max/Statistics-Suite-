@@ -296,6 +296,39 @@ Results appear here
 </div>
 
 </section>
+
+<section id="percentileSection" class="hidden">
+
+<div class="card">
+
+<h2>📈 Percentile Calculator</h2>
+
+<textarea
+id="percentileData"
+rows="5"
+placeholder="Example: 1,2,3,4,5,6,7,8,9">
+</textarea>
+
+<input
+type="number"
+id="percentileValue"
+placeholder="Percentile (e.g. 90)">
+
+<button onclick="calculatePercentile()">
+Calculate Percentile
+</button>
+
+<div
+class="result"
+id="percentileResult">
+
+Results appear here
+
+</div>
+
+</div>
+
+</section>
   
 </div>
 <div class="bottom-nav">
@@ -337,6 +370,14 @@ class="nav-btn"
 onclick="showSection('outlierSection')">
 
 🚨<br>Out
+
+</button>
+
+<button
+class="nav-btn"
+onclick="showSection('percentileSection')">
+
+📈<br>Pct
 
 </button>
   
@@ -837,6 +878,65 @@ addHistory(
 
 }
 
+function calculatePercentile(){
+
+let data=
+parseNumbers(
+"percentileData"
+);
+
+let p=
+parseFloat(
+document.getElementById(
+"percentileValue"
+).value
+);
+
+if(
+data.length===0 ||
+isNaN(p) ||
+p<0 ||
+p>100
+){
+
+alert(
+"Enter valid data and percentile."
+);
+
+return;
+
+}
+
+let sorted=
+[...data]
+.sort((a,b)=>a-b);
+
+let result=
+percentile(
+sorted,
+p/100
+);
+
+document
+.getElementById(
+"percentileResult"
+)
+.innerHTML=
+
+`
+<b>P${p}</b>
+
+<br><br>
+
+${result.toFixed(4)}
+
+`;
+
+addHistory(
+`Percentile P${p}`
+);
+
+}
   
 showSection(
 "homeSection"
