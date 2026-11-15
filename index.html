@@ -800,7 +800,7 @@ function parseNumericList(value,label){
 function calculateMLMetrics(){
  const ids=["mlTP","mlFP","mlTN","mlFN"],values=ids.map(id=>Number(document.getElementById(id).value)),out=document.getElementById("mlMetricsResult");
  if(values.some((v,i)=>!Number.isInteger(v)||v<0||document.getElementById(ids[i]).value==="")){out.textContent="Enter whole-number counts of zero or greater in all four fields.";return;}
- const [tp,fp,tn,fn]=values,total=tp+fp+tn+fn,accuracy=total?(tp+tn)/total:null,precision=tp+fp?tp/(tp+fp):null,recall=tp+fn?tp/(tp+fn):null,specificity=tn+fp?tn/(tn+fp):null,f1=precision===null||recall===null?(tp===0&&fp===0&&fn===0?0:null):(precision+recall?2*precision*recall/(precision+recall):0);
+ const [tp,fp,tn,fn]=values,total=tp+fp+tn+fn,accuracy=total?(tp+tn)/total:null,precision=tp+fp?tp/(tp+fp):null,recall=tp+fn?tp/(tp+fn):null,specificity=tn+fp?tn/(tn+fp):null,f1=(2*tp+fp+fn)===0?null:(2*tp)/(2*tp+fp+fn);
  const fmt=v=>v===null?"N/A":(v*100).toFixed(2)+"%";
  out.innerHTML='<p><b>Total observations:</b> '+total+'</p><div class="ml-metric-grid">'+[['Accuracy',fmt(accuracy)],['Precision',fmt(precision)],['Recall / Sensitivity',fmt(recall)],['Specificity',fmt(specificity)],['F1-score',fmt(f1)]].map(([k,v])=>'<div class="ml-metric"><strong>'+k+'</strong><span>'+v+'</span></div>').join("")+'</div><p class="chart-caption">A metric may show N/A when its denominator is zero. Interpret these results together with class balance and the cost of each error.</p>';
  addHistory("Classification metrics calculated");
