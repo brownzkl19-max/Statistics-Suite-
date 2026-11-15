@@ -120,15 +120,13 @@ background:var(--card);
 display:flex;
 overflow-x:auto;
 padding:5px;
+justify-content:space-around;
+align-items:center;
 border-top:1px solid var(--border);
 }
   .nav-btn{
 flex-shrink:0;
 min-width:70px;
-}
-justify-content:space-around;
-align-items:center;
-border-top:1px solid var(--border);
 }
 .nav-btn{
 background:none;
@@ -453,16 +451,13 @@ The median is the middle value after the
 data has been sorted.
 </p>
 
-<br>
-
 <p>
 Example:
 1,2,3,4,5
-<br>
 Median = 3
 </p>
 
-<hr><br>
+<hr>
 
 <h3>Mode</h3>
 
@@ -470,12 +465,9 @@ Median = 3
 The mode is the value that appears most often.
 </p>
 
-<br>
-
 <p>
 Example:
 1,1,2,3,4
-<br>
 Mode = 1
 </p>
 
@@ -515,7 +507,6 @@ IQR measures the spread of the middle
 
 <p>
 Formula:
-<br>
 IQR = Q3 − Q1
 </p>
 
@@ -530,7 +521,6 @@ a value is from the mean.
 
 <p>
 Positive = Above average
-<br>
 Negative = Below average
 </p>
 
@@ -568,9 +558,7 @@ relationship between two variables.
 
 <p>
 r = 1 → Perfect Positive
-<br>
 r = 0 → No Relationship
-<br>
 r = -1 → Perfect Negative
 </p>
 
@@ -1039,15 +1027,12 @@ document
 .innerHTML=
 `
 <b>Correlation (r)</b>
-<br>
 ${r.toFixed(4)}
 <br><br>
 <b>R²</b>
-<br>
 ${(r*r).toFixed(4)}
 <br><br>
 <b>Regression Equation</b>
-<br>
 y =
 ${slope.toFixed(4)}
 x +
@@ -1057,18 +1042,12 @@ addHistory(
 "Regression calculated"
 );
 }
-
 function calculateZScore(){
 
-let x=parseFloat(
 document.getElementById("zValue").value
 );
-
-let meanValue=parseFloat(
 document.getElementById("zMean").value
 );
-
-let sd=parseFloat(
 document.getElementById("zStd").value
 );
 
@@ -1083,9 +1062,6 @@ alert(
 );
 return;
 }
-
-let z=(x-meanValue)/sd;
-
 document
 .getElementById("zscoreResult")
 .innerHTML=
@@ -1095,17 +1071,11 @@ document
 ${z.toFixed(4)}
 <br><br>
 Formula:
-<br>
 (x − μ) / σ
 `;
-
-addHistory(
 `Z-Score = ${z.toFixed(4)}`
 );
-
-}
-
-function detectOutliers(){
+  function detectOutliers(){
 
 let data=
 parseNumbers(
