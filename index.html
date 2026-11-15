@@ -765,6 +765,78 @@ addHistory(
 );
 
 }
+
+function detectOutliers(){
+
+let data=
+parseNumbers(
+"outlierData"
+);
+
+if(data.length < 4){
+
+alert(
+"Enter at least 4 values."
+);
+
+return;
+
+}
+
+let q=
+quartiles(data);
+
+let lowerFence=
+q.q1 - (1.5 * q.iqr);
+
+let upperFence=
+q.q3 + (1.5 * q.iqr);
+
+let outliers=
+data.filter(x =>
+x < lowerFence ||
+x > upperFence
+);
+
+document
+.getElementById(
+"outlierResult"
+)
+.innerHTML=
+
+`
+<b>Q1</b>: ${q.q1.toFixed(4)}
+
+<br><br>
+
+<b>Q3</b>: ${q.q3.toFixed(4)}
+
+<br><br>
+
+<b>IQR</b>: ${q.iqr.toFixed(4)}
+
+<br><br>
+
+<b>Lower Fence</b>:
+${lowerFence.toFixed(4)}
+
+<br><br>
+
+<b>Upper Fence</b>:
+${upperFence.toFixed(4)}
+
+<br><br>
+
+<b>Outliers</b>:
+${outliers.length ? outliers.join(", ") : "None"}
+`;
+
+addHistory(
+`Outlier check completed`
+);
+
+}
+
   
 showSection(
 "homeSection"
