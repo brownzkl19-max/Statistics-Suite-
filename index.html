@@ -3,224 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistics Suite</title>
+<title>Statistics Suite | Free Online Statistics Calculator & Learning Tools</title>
+<meta name="description" content="Explore Statistics Suite, a free educational platform for descriptive statistics, probability, correlation, regression, data analysis, and statistics lessons.">
+<meta name="robots" content="index,follow">
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3b82f6">
+<meta name="theme-color" content="#163a63">
 <style>
 :root{
---bg:#0f172a;
---card:#1e293b;
---accent:#3b82f6;
---text:#ffffff;
---muted:#94a3b8;
---border:#334155;
+  color-scheme:light;
+  --bg:#f5f7fb;--surface:#ffffff;--surface-soft:#eef3fa;
+  --primary:#163a63;--accent:#2563eb;--accent-soft:#e8f0ff;
+  --text:#172b45;--muted:#64748b;--border:#dce4ef;
+  --success:#15803d;--shadow:0 8px 24px rgba(22,58,99,.07);
 }
-.light{
---bg:#f8fafc;
---card:#ffffff;
---accent:#2563eb;
---text:#0f172a;
---muted:#64748b;
---border:#cbd5e1;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;line-height:1.55;padding-bottom:0}
+button,input,textarea{font:inherit}
+button{border:0;border-radius:10px;background:var(--accent);color:#fff;padding:12px 16px;font-weight:600;cursor:pointer;transition:background .18s,transform .18s}
+button:hover{background:#1d4ed8;transform:translateY(-1px)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.topbar{height:76px;position:sticky;top:0;z-index:20;margin-left:258px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:21px}
+.brand-name{font-weight:800;letter-spacing:-.03em;color:var(--primary);font-size:18px}
+.brand-subtitle{font-size:11px;color:var(--muted);margin-top:-3px}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.topbar-note{font-size:13px;color:var(--muted)}
+.theme-button{width:auto;background:var(--surface-soft);color:var(--primary);padding:10px 13px}
+.sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--primary);color:#fff;padding:25px 16px;z-index:30;overflow-y:auto}
+.sidebar-brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px;border-bottom:1px solid rgba(255,255,255,.16)}
+.sidebar-brand .brand-mark{background:#fff;color:var(--primary)}
+.sidebar-brand .brand-name{color:#fff}
+.sidebar-label{padding:23px 12px 9px;color:#a9bfd9;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.side-nav{display:grid;gap:5px}
+.side-nav button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:11px 13px;background:transparent;color:#dbeafe;border-radius:9px;font-size:13px;font-weight:600}
+.side-nav button:hover,.side-nav button.active{background:rgba(255,255,255,.15);color:#fff;transform:none}
+.side-nav .nav-icon{width:22px;text-align:center;font-size:16px}
+.sidebar-footer{margin:30px 8px 0;padding:14px;border:1px solid rgba(255,255,255,.18);border-radius:12px;color:#dbeafe;font-size:12px}
+.container{max-width:1240px;margin:0 auto 0 258px;padding:30px 34px 60px}
+.card{background:var(--surface);border:1px solid var(--border);padding:22px;border-radius:16px;margin-bottom:20px;box-shadow:var(--shadow)}
+.card h2{font-size:19px;letter-spacing:-.02em;color:var(--primary);margin:0 0 12px}
+.card h3{color:var(--primary);margin:20px 0 8px}
+.card p{color:var(--muted);margin:7px 0}
+input,textarea{width:100%;padding:13px 14px;margin:9px 0 13px;border-radius:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text)}
+textarea{resize:vertical;min-height:90px}
+label{font-size:13px;font-weight:700;color:var(--text)}
+.result{margin-top:15px;background:var(--surface-soft);padding:16px;border-radius:12px;border:1px solid var(--border);overflow-x:auto}
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.stat-card{background:#f8faff;padding:15px;border-radius:12px;text-align:left;border:1px solid var(--border);min-width:0}
+.stat-card h4{font-size:12px;color:var(--muted);margin:0 0 5px;font-weight:700}
+.stat-card div{font-size:20px;font-weight:800;color:var(--primary);overflow-wrap:anywhere}
+.hidden{display:none!important}
+.lesson-tip{background:var(--accent-soft);color:var(--primary);padding:15px 17px;border-radius:12px;margin-bottom:16px;line-height:1.6;border-left:4px solid var(--accent)}
+.history-item{padding:12px 4px;border-bottom:1px solid var(--border);color:var(--muted)}
+.home-hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#163a63,#24558b);color:#fff;padding:34px;border-radius:20px;margin-bottom:22px;box-shadow:0 14px 30px rgba(22,58,99,.15)}
+.home-hero:after{content:"";position:absolute;width:260px;height:260px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-65px;top:-110px;box-shadow:0 0 0 30px rgba(255,255,255,.04),0 0 0 65px rgba(255,255,255,.03)}
+.hero-kicker{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#bfdbfe}
+.home-hero h2{font-size:clamp(26px,4vw,38px);line-height:1.15;max-width:620px;margin:12px 0}
+.home-hero p{max-width:620px;color:#dbeafe;font-size:15px;margin:0 0 22px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+.hero-actions button{width:auto;background:#fff;color:var(--primary)}
+.hero-actions .secondary{background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:26px 0 14px}
+.section-heading h2{font-size:19px;color:var(--primary);margin:0}
+.section-heading p{font-size:13px;color:var(--muted);margin:3px 0 0}
+.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:19px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:180px}
+.tool-card .tool-icon{width:42px;height:42px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:20px;margin-bottom:13px}
+.tool-card h3{font-size:15px;color:var(--primary);margin:0 0 5px}
+.tool-card p{font-size:12px;color:var(--muted);margin:0 0 15px;flex:1}
+.tool-card button{width:auto;align-self:flex-start;padding:9px 13px;font-size:12px}
+.home-note{background:#fff;border:1px solid var(--border);padding:18px;border-radius:14px;margin-top:18px;color:var(--muted);font-size:13px}
+.bottom-nav{display:none}
+body.dark{color-scheme:dark;--bg:#0f172a;--surface:#1e293b;--surface-soft:#26364b;--primary:#dbeafe;--accent:#3b82f6;--accent-soft:#1e3a5f;--text:#f1f5f9;--muted:#a8b7ca;--border:#3b4b61;--shadow:0 8px 24px rgba(0,0,0,.16)}
+body.dark .topbar{background:rgba(30,41,59,.95)}
+body.dark .brand-name,body.dark .card h2,body.dark .card h3,body.dark .section-heading h2,body.dark .tool-card h3,body.dark .stat-card div{color:#dbeafe}
+body.dark input,body.dark textarea,body.dark .stat-card{background:#172438;color:#f1f5f9}
+body.dark .theme-button{background:#26364b;color:#dbeafe}
+body.dark .home-note{background:var(--surface);border-color:var(--border)}
+@media(max-width:900px){.sidebar{width:220px}.topbar{margin-left:220px;padding:0 22px}.container{margin-left:220px;padding:24px 22px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){body{padding-bottom:72px}.sidebar{display:none}.topbar{height:66px;margin-left:0;padding:0 16px}.brand-mark{width:37px;height:37px}.brand-name{font-size:16px}.topbar-note{display:none}.container{margin:0;padding:18px 14px 30px}.home-hero{padding:25px 21px}.card{padding:17px}.tool-grid{grid-template-columns:1fr 1fr;gap:10px}.tool-card{padding:14px;min-height:174px}.tool-card .tool-icon{width:36px;height:36px}.tool-card h3{font-size:13px}.tool-card p{font-size:11px}.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:25;background:var(--surface);border-top:1px solid var(--border);padding:7px 3px calc(7px + env(safe-area-inset-bottom));justify-content:space-around;gap:2px}.bottom-nav .nav-btn{flex:1;min-width:0;width:auto;background:transparent;color:var(--muted);font-size:10px;padding:5px 2px;border-radius:8px}.bottom-nav .nav-btn.active{background:var(--accent-soft);color:var(--accent)}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-heading{align-items:start;flex-direction:column}}
+@media(max-width:370px){.tool-grid{grid-template-columns:1fr}.topbar-actions{gap:4px}.brand-subtitle{display:none}}
+
+/* Phase 2: mobile usability and accessible touch targets */
+select{width:100%;padding:12px 14px;margin:9px 0 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit}
+button,.nav-btn{min-height:44px}
+.card{min-width:0}
+.result table{min-width:260px}
+@media(max-width:640px){
+  .container{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .card{border-radius:13px}
+  .card button{width:100%}
+  .hero-actions button{width:auto}
+  .bottom-nav{min-height:62px}
+  .bottom-nav .nav-btn{min-height:48px}
+  input,textarea,select{font-size:16px}
 }
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
+@media(hover:none){button:hover{transform:none}}
+.dark .sidebar{background:#0b1b30}
+.dark .sidebar-brand .brand-name{color:#fff}
+.dark .sidebar .sidebar-label{color:#a9bfd9}
+.dark .sidebar .side-nav button{color:#dbeafe}
+/* Phase 3: CSV data explorer */
+.file-picker{display:block;width:100%;padding:13px;background:var(--surface-soft);border:1px dashed var(--accent);border-radius:12px;color:var(--text);font-size:14px}
+.check-row{display:flex;align-items:center;gap:9px;margin:12px 0;color:var(--muted);font-size:13px}
+.check-row input{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+.data-preview{width:100%;overflow:auto;margin-top:12px;border:1px solid var(--border);border-radius:10px}
+.data-preview table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}
+.data-preview th,.data-preview td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border)}
+.data-preview th{background:var(--surface-soft);color:var(--primary)}
+.chart-list{display:grid;gap:10px;margin-top:15px}
+.chart-row{display:grid;grid-template-columns:minmax(80px,120px) 1fr 42px;gap:9px;align-items:center;font-size:12px}
+.chart-track{height:13px;background:var(--surface-soft);border-radius:20px;overflow:hidden}
+.chart-fill{height:100%;background:var(--accent);border-radius:20px}
+.chart-count{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+ .file-picker{font-size:13px;padding:12px}
+ .chart-row{grid-template-columns:75px 1fr 34px;gap:7px}
+ .data-preview th,.data-preview td{padding:8px}
 }
-body{
-background:var(--bg);
-color:var(--text);
-padding-bottom:80px;
-}
-header{
-background:var(--card);
-padding:18px;
-position:sticky;
-top:0;
-border-bottom:1px solid var(--border);
-}
-header h1{
-font-size:24px;
-} header p{
-color:var(--muted);
-margin-top:5px;
-}
-.container{
-padding:15px;
-max-width:900px;
-margin:auto;
-}
-.card{
-background:var(--card);
-border:1px solid var(--border);
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
-}
-input,
-textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-margin-bottom:10px;
-border-radius:10px;
-border:1px solid var(--border);
-background:var(--bg);
-color:var(--text);
-}
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:var(--accent);
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-.result{
-margin-top:12px;
-background:var(--bg);
-padding:12px;
-border-radius:10px;
-border:1px solid var(--border);
-} .stats-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:12px;
-}
-.stat-card{
-background:var(--bg);
-padding:12px;
-border-radius:12px;
-text-align:center;
-border:1px solid var(--border);
-}
-.stat-card h4{
-font-size:13px;
-color:var(--muted);
-margin-bottom:5px;
-}
-.stat-card div{
-font-size:20px;
-font-weight:bold;
-}
-.hidden{
-display:none;
-}
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:var(--card);
-display:flex;
-overflow-x:auto;
-padding:5px;
-justify-content:space-around;
-align-items:center;
-border-top:1px solid var(--border);
-}
- .nav-btn{
-flex-shrink:0;
-min-width:70px;
-background:none;
-border:none;
-color:var(--text);
-font-size:12px;
-width:auto;
-} .history-item{
-padding:10px;
-border-bottom:1px solid var(--border);
-}
-.lesson-tip{
-background:#2563eb;
-color:white;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-line-height:1.5;
-}
-  
 </style>
 </head>
 <body>
-<header>
-<h1>📊 Statistics Suite</h1>
-<p>Professional Statistics Calculator</p>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">∑</div>
+    <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic Statistics Workspace</div></div>
+  </div>
+  <div class="topbar-actions">
+    <span class="topbar-note">Learn · Calculate · Understand</span>
+    <button class="theme-button" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ <span>Theme</span></button>
+  </div>
 </header>
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="sidebar-brand">
+    <div class="brand-mark" aria-hidden="true">∑</div>
+    <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic workspace</div></div>
+  </div>
+  <div class="sidebar-label">Workspace</div>
+  <nav class="side-nav">
+    <button class="active" data-section="homeSection" onclick="showSection('homeSection')"><span class="nav-icon">⌂</span> Overview</button>
+    <button data-section="statsSection" onclick="showSection('statsSection')"><span class="nav-icon">▦</span> Descriptive Statistics</button>
+    <button data-section="probabilitySection" onclick="showSection('probabilitySection')"><span class="nav-icon">◉</span> Probability</button>
+    <button data-section="regressionSection" onclick="showSection('regressionSection')"><span class="nav-icon">⌁</span> Correlation & Regression</button>
+    <button data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')"><span class="nav-icon">▥</span> CSV Data Explorer</button>
+  </nav>
+  <div class="sidebar-label">More tools</div>
+  <nav class="side-nav">
+    <button data-section="zscoreSection" onclick="showSection('zscoreSection')"><span class="nav-icon">σ</span> Z-Score</button>
+    <button data-section="outlierSection" onclick="showSection('outlierSection')"><span class="nav-icon">⌖</span> Outlier Detector</button>
+    <button data-section="percentileSection" onclick="showSection('percentileSection')"><span class="nav-icon">％</span> Percentiles</button>
+    <button data-section="frequencySection" onclick="showSection('frequencySection')"><span class="nav-icon">▤</span> Frequency Table</button>
+  </nav>
+  <div class="sidebar-label">Study</div>
+  <nav class="side-nav">
+    <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
+    <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
+  </nav>
+  <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
+</aside>
 <div class="container">
 <section id="homeSection">
-
-<div class="card">
-
-<h2>📊 Statistics Suite</h2>
-
-<p>
-Learn statistics, understand concepts, and use calculators all in one place.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>📚 Learn Statistics</h2>
-
-<p>
-Understand Mean, Median, Quartiles, Z-Scores, Percentiles, Outliers, Correlation and more.
-</p>
-
-<button onclick="showSection('learnSection')">
-Start Learning →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📊 Statistical Tools</h2>
-
-<p>
-Calculate descriptive statistics, quartiles, IQR, percentiles, z-scores and outliers.
-</p>
-
-<button onclick="showSection('statsSection')">
-Open Tools →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📈 Data Analysis</h2>
-
-<p>
-Explore correlation and regression analysis.
-</p>
-
-<button onclick="showSection('regressionSection')">
-Open Analysis →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>🎲 Probability Tools</h2>
-
-<p>
-Use Factorial, Permutation and Combination calculators.
-</p>
-
-<button onclick="showSection('probabilitySection')">
-Open Probability →
-</button>
-
-</div>
-
+  <div class="home-hero">
+    <div class="hero-kicker">Your academic statistics workspace</div>
+    <h2>Make sense of data.<br>Build confidence in statistics.</h2>
+    <p>Explore statistical concepts, calculate important measures, and understand what your data is telling you—all in one learning-friendly workspace.</p>
+    <div class="hero-actions">
+      <button onclick="showSection('statsSection')">Open statistics tools →</button>
+      <button class="secondary" onclick="showSection('learnSection')">Explore learning center</button>
+    </div>
+  </div>
+  <div class="section-heading"><div><h2>Explore your workspace</h2><p>Choose a tool to begin working with your data.</p></div></div>
+  <div class="tool-grid">
+    <article class="tool-card"><div class="tool-icon">▦</div><h3>Descriptive Statistics</h3><p>Summarize datasets using mean, median, mode, variance, standard deviation, and quartiles.</p><button onclick="showSection('statsSection')">Open calculator</button></article>
+    <article class="tool-card"><div class="tool-icon">◉</div><h3>Probability Tools</h3><p>Explore factorials, permutations, and combinations with numerical examples.</p><button onclick="showSection('probabilitySection')">Open calculator</button></article>
+    <article class="tool-card"><div class="tool-icon">⌁</div><h3>Correlation & Regression</h3><p>Examine relationships between two variables and calculate a linear regression equation.</p><button onclick="showSection('regressionSection')">Analyze data</button></article>
+    <article class="tool-card"><div class="tool-icon">σ</div><h3>Z-Score Calculator</h3><p>Find how far an observation is from the mean in standard deviation units.</p><button onclick="showSection('zscoreSection')">Calculate Z-score</button></article>
+    <article class="tool-card"><div class="tool-icon">⌖</div><h3>Outlier Detector</h3><p>Use the interquartile range method to identify unusually low or high values.</p><button onclick="showSection('outlierSection')">Check outliers</button></article>
+    <article class="tool-card"><div class="tool-icon">％</div><h3>Percentile Calculator</h3><p>Calculate percentile values to understand the position of observations in a dataset.</p><button onclick="showSection('percentileSection')">Find percentile</button></article>
+    <article class="tool-card"><div class="tool-icon">▤</div><h3>Frequency Table</h3><p>Organize values and see how often each observation occurs.</p><button onclick="showSection('frequencySection')">Create table</button></article>
+    <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
+    <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
+  </div>
+  <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
 <section id="statsSection" class="hidden">
 <div class="card">
@@ -232,10 +198,13 @@ Open Probability →
 They summarize data using measures such as Mean, Median, Mode, Range, Variance, and Standard Deviation.
 
 </div>
-<textarea
-id="dataInput"
-rows="5"
-placeholder="Example: 12,15,18,20,25"></textarea>
+<label for="dataInput">Dataset</label>
+<textarea id="dataInput" rows="5" inputmode="decimal" placeholder="Example: 12, 15, 18, 20, 25"></textarea>
+<label for="varianceType">Variance and standard deviation type</label>
+<select id="varianceType">
+  <option value="population">Population (divide by N)</option>
+  <option value="sample">Sample (divide by N − 1)</option>
+</select>
 <button onclick="calculateStats()">
 Calculate
 </button>
@@ -296,9 +265,10 @@ Results appear here
 <section id="historySection" class="hidden">
 <div class="card">
 <h2>📜 History</h2>
-<div id="historyList">
-No calculations yet.
+<div style="display:flex;justify-content:flex-end;margin:8px 0 12px">
+<button type="button" style="width:auto;background:#e8f0ff;color:#163a63" onclick="clearHistory()">Clear history</button>
 </div>
+<div id="historyList" aria-live="polite">No calculations yet.</div>
 </div>
 </section>
 
@@ -608,99 +578,239 @@ Results appear here
 </div>
 
 </section>
-  
+<section id="dataAnalysisSection" class="hidden">
+  <div class="card">
+    <h2>▥ CSV Data Explorer</h2>
+    <div class="lesson-tip">Upload a CSV file to preview its rows, choose a numeric column, and explore a summary with a simple distribution chart. Your file is processed in this browser and is not uploaded to a server.</div>
+    <label for="csvFile">Choose a CSV file</label>
+    <input class="file-picker" type="file" id="csvFile" accept=".csv,text/csv" onchange="loadCSVFile(event)">
+    <label class="check-row"><input type="checkbox" id="csvHasHeader" checked onchange="refreshCSVView()"> First row contains column names</label>
+    <div id="csvStatus" class="result" aria-live="polite">Choose a CSV file to begin.</div>
+  </div>
+  <div class="card hidden" id="csvPreviewCard">
+    <h2>Dataset Preview</h2>
+    <p id="csvDatasetInfo">No dataset loaded.</p>
+    <div class="data-preview" id="csvPreview"></div>
+  </div>
+  <div class="card hidden" id="csvAnalysisCard">
+    <h2>Numeric Column Summary</h2>
+    <label for="csvColumnSelect">Select a numeric column</label>
+    <select id="csvColumnSelect" onchange="analyzeCSVColumn()"></select>
+    <div id="csvSummary" class="stats-grid"></div>
+    <h3>Value Distribution</h3>
+    <p>Values are grouped into up to six ranges to help you see their distribution.</p>
+    <div id="csvChart" class="chart-list" role="img" aria-label="Distribution chart for selected numeric column"></div>
+  </div>
+</section>
+
 </div>
-<div class="bottom-nav">
-<button
-class="nav-btn"
-onclick="showSection('homeSection')">
-🏠<br>Home
-</button>
-<button
-class="nav-btn"
-onclick="showSection('statsSection')">
-📊<br>Stats
-</button>
-<button
-class="nav-btn"
-onclick="showSection('probabilitySection')"> 🎲<br>Prob
-</button>
-<button
-class="nav-btn"
-onclick="showSection('regressionSection')">
-📉<br>Reg
-</button>
-<button
-class="nav-btn"
-onclick="showSection('historySection')">
-📜<br>History
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('zscoreSection')">
-
-📐<br>Z
-
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('outlierSection')">
-🚨<br>Out
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('learnSection')">
-📚<br>Learn
-</button>
-  <button
-class="nav-btn"
-onclick="showSection('percentileSection')">
-📈<br>Pct
-</button>
-  <button
-class="nav-btn"
-onclick="showSection('frequencySection')">
-📋<br>Freq
-</button>
-</div>
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <button class="nav-btn active" data-section="homeSection" onclick="showSection('homeSection')">⌂<br>Home</button>
+  <button class="nav-btn" data-section="statsSection" onclick="showSection('statsSection')">▦<br>Stats</button>
+  <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
+  <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
+  <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
+</nav>
 <script>
 let historyData=[];
+
+// CSV Data Explorer: data stays in the current browser session.
+let csvRows=[];
+let csvHeaders=[];
+let csvFileName="";
+function parseCSVText(text){
+  const rows=[]; let row=[]; let cell=""; let quoted=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"'){
+      if(quoted && text[i+1]==='"'){cell+='"';i++;}
+      else quoted=!quoted;
+    }else if(ch==="," && !quoted){
+      row.push(cell);cell="";
+    }else if((ch==="\n"||ch==="\r")&&!quoted){
+      if(ch==="\r"&&text[i+1]==="\n")i++;
+      row.push(cell);cell="";
+      if(row.some(value=>value.trim()!==""))rows.push(row);
+      row=[];
+    }else{cell+=ch;}
+  }
+  row.push(cell);
+  if(row.some(value=>value.trim()!==""))rows.push(row);
+  return rows;
+}
+function loadCSVFile(event){
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){
+    document.getElementById("csvStatus").textContent="Please choose a CSV file smaller than 5 MB.";
+    event.target.value="";
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      csvRows=parseCSVText(String(reader.result||""));
+      csvFileName=file.name;
+      if(csvRows.length<2){
+        csvRows=[];
+        document.getElementById("csvStatus").textContent="The file needs a header/data row and at least one data row.";
+        return;
+      }
+      refreshCSVView();
+    }catch(error){
+      document.getElementById("csvStatus").textContent="Unable to read this CSV file. Please check its format.";
+    }
+  };
+  reader.onerror=function(){
+    document.getElementById("csvStatus").textContent="The file could not be read. Please try again.";
+  };
+  reader.readAsText(file);
+}
+function refreshCSVView(){
+  if(!csvRows.length)return;
+  const hasHeader=document.getElementById("csvHasHeader").checked;
+  const width=Math.max(...csvRows.map(row=>row.length));
+  const rawHeaders=hasHeader?csvRows[0]:Array.from({length:width},(_,i)=>"Column "+(i+1));
+  csvHeaders=Array.from({length:width},(_,i)=>(rawHeaders[i]||"Column "+(i+1)).trim()||"Column "+(i+1));
+  const body=hasHeader?csvRows.slice(1):csvRows;
+  const info=document.getElementById("csvDatasetInfo");
+  info.textContent=csvFileName+" · "+body.length+" rows · "+width+" columns";
+  const preview=document.getElementById("csvPreview");
+  preview.replaceChildren();
+  const table=document.createElement("table");
+  const thead=document.createElement("thead");
+  const headRow=document.createElement("tr");
+  csvHeaders.forEach(label=>{
+    const th=document.createElement("th");th.textContent=label;headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);table.appendChild(thead);
+  const tbody=document.createElement("tbody");
+  body.slice(0,8).forEach(row=>{
+    const tr=document.createElement("tr");
+    csvHeaders.forEach((_,index)=>{
+      const td=document.createElement("td");td.textContent=row[index]??"";tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);preview.appendChild(table);
+  document.getElementById("csvPreviewCard").classList.remove("hidden");
+  const select=document.getElementById("csvColumnSelect");
+  select.replaceChildren();
+  const numericColumns=[];
+  csvHeaders.forEach((header,index)=>{
+    const values=body.map(row=>(row[index]??"").trim()).filter(value=>value!=="");
+    if(values.length>0&&values.every(value=>Number.isFinite(Number(value)))){
+      numericColumns.push({header,index});
+      const option=document.createElement("option");option.value=String(index);option.textContent=header;select.appendChild(option);
+    }
+  });
+  const status=document.getElementById("csvStatus");
+  status.textContent="Loaded "+csvFileName+". Showing up to 8 preview rows.";
+  const analysisCard=document.getElementById("csvAnalysisCard");
+  if(numericColumns.length===0){
+    analysisCard.classList.add("hidden");
+    status.textContent+=" No numeric columns were detected.";
+    return;
+  }
+  analysisCard.classList.remove("hidden");
+  analyzeCSVColumn();
+}
+function analyzeCSVColumn(){
+  if(!csvRows.length)return;
+  const hasHeader=document.getElementById("csvHasHeader").checked;
+  const body=hasHeader?csvRows.slice(1):csvRows;
+  const index=Number(document.getElementById("csvColumnSelect").value);
+  const values=body.map(row=>Number((row[index]??"").trim())).filter(Number.isFinite);
+  if(!values.length)return;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const avg=values.reduce((sum,value)=>sum+value,0)/values.length;
+  const med=sorted.length%2?sorted[(sorted.length-1)/2]:(sorted[sorted.length/2-1]+sorted[sorted.length/2])/2;
+  const varianceValue=values.reduce((sum,value)=>sum+(value-avg)**2,0)/values.length;
+  const metrics=[
+    ["Valid values",values.length],
+    ["Mean",avg.toFixed(4)],
+    ["Median",med.toFixed(4)],
+    ["Minimum",sorted[0]],
+    ["Maximum",sorted[sorted.length-1]],
+    ["Std. deviation",Math.sqrt(varianceValue).toFixed(4)]
+  ];
+  const summary=document.getElementById("csvSummary");summary.replaceChildren();
+  metrics.forEach(([label,value])=>{
+    const item=document.createElement("div");item.className="stat-card";
+    const heading=document.createElement("h4");heading.textContent=label;
+    const result=document.createElement("div");result.textContent=String(value);
+    item.append(heading,result);summary.appendChild(item);
+  });
+  const min=sorted[0],max=sorted[sorted.length-1];
+  const binCount=Math.min(6,Math.max(1,Math.ceil(Math.sqrt(values.length))));
+  const span=max-min;
+  const counts=Array(binCount).fill(0);
+  values.forEach(value=>{
+    const bin=span===0?0:Math.min(binCount-1,Math.floor((value-min)/span*binCount));
+    counts[bin]++;
+  });
+  const chart=document.getElementById("csvChart");chart.replaceChildren();
+  const maxCount=Math.max(...counts,1);
+  counts.forEach((count,bin)=>{
+    const low=span===0?min:min+span*bin/binCount;
+    const high=span===0?max:min+span*(bin+1)/binCount;
+    const row=document.createElement("div");row.className="chart-row";
+    const label=document.createElement("span");label.textContent=low.toFixed(2)+"–"+high.toFixed(2);
+    const track=document.createElement("div");track.className="chart-track";
+    const fill=document.createElement("div");fill.className="chart-fill";fill.style.width=(count/maxCount*100)+"%";track.appendChild(fill);
+    const total=document.createElement("span");total.className="chart-count";total.textContent=String(count);
+    row.append(label,track,total);chart.appendChild(row);
+  });
+}
+
 function showSection(id){
-document.querySelectorAll("section")
-.forEach(sec=>{
-sec.classList.add("hidden");
-});
-document
-.getElementById(id)
-.classList.remove("hidden");
+  document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
+  const target=document.getElementById(id);
+  if(target) target.classList.remove("hidden");
+  document.querySelectorAll("[data-section]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.section===id);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 function toggleTheme(){
-document.body.classList.toggle("light");
+  document.body.classList.toggle("dark");
+}
+function renderHistory(){
+  const list=document.getElementById("historyList");
+  if(!list) return;
+  list.replaceChildren();
+  if(historyData.length===0){
+    list.textContent="No calculations yet.";
+    return;
+  }
+  historyData.forEach(item=>{
+    const row=document.createElement("div");
+    row.className="history-item";
+    row.textContent=item;
+    list.appendChild(row);
+  });
 }
 function addHistory(item){
-historyData.unshift(item);
-let html="";
-historyData.forEach(h=>{
-html+=`
-<div class="history-item">
-${h}
-</div>
-`;
-});
-document
-.getElementById("historyList")
-.innerHTML=html;
+  historyData.unshift(item);
+  historyData=historyData.slice(0,50);
+  try{localStorage.setItem("statisticsSuiteHistory",JSON.stringify(historyData));}catch(error){}
+  renderHistory();
+}
+function clearHistory(){
+  historyData=[];
+  try{localStorage.removeItem("statisticsSuiteHistory");}catch(error){}
+  renderHistory();
 }
 function parseNumbers(id){
-return document
-.getElementById(id)
-.value
-.split(",")
-.map(v=>parseFloat(v.trim()))
-.filter(v=>!isNaN(v));
+  const raw=document.getElementById(id).value.trim();
+  if(!raw) return [];
+  const tokens=raw.split(/[,;\s]+/).filter(Boolean);
+  const values=tokens.map(token=>Number(token));
+  if(values.some(value=>!Number.isFinite(value))){
+    alert("Some entries are not valid numbers. Please use numbers separated by commas, spaces, or new lines.");
+    return [];
+  }
+  return values;
 }
 function mean(data){
 return data.reduce(
@@ -718,29 +828,20 @@ return d.length%2
 : (d[mid-1]+d[mid])/2;
 }
 function mode(data){
-let count={};
-data.forEach(v=>{
-count[v]=(count[v]||0)+1;
-});
-let max=Math.max(
-...Object.values(count)
-);
-return Object.keys(count)
-.filter(k=>count[k]===max)
-.join(", ");
+  const count={};
+  data.forEach(value=>{count[value]=(count[value]||0)+1;});
+  const max=Math.max(...Object.values(count));
+  if(max===1) return "No mode (all values occur once)";
+  return Object.keys(count).filter(key=>count[key]===max).join(", ");
 }
-function variance(data){
-let m=mean(data);
-return data.reduce(
-(sum,x)=>
-sum+(x-m)*(x-m),
-0
-)/data.length;
+function variance(data,type="population"){
+  const divisor=type==="sample"?data.length-1:data.length;
+  if(divisor<=0) return NaN;
+  const average=mean(data);
+  return data.reduce((sum,value)=>sum+(value-average)**2,0)/divisor;
 }
-function stddev(data){
-return Math.sqrt(
-variance(data)
-);
+function stddev(data,type="population"){
+  return Math.sqrt(variance(data,type));
 }
 function percentile(sorted,p){
 let index=
@@ -776,178 +877,80 @@ iqr:q3-q1
 };
 }
 function calculateStats(){
-let data=
-parseNumbers(
-"dataInput"
-);
-if(data.length===0){
-alert(
-"Please enter values."
-);
-return;
-}
-let q=
-quartiles(data);
-let total=
-data.reduce(
-(a,b)=>a+b,
-0
-);
-let min=
-Math.min(...data);
-let max= Math.max(...data);
-let result=`
-<div class="stats-grid">
-<div class="stat-card">
-<h4>N</h4>
-<div>${data.length}</div>
-</div>
-<div class="stat-card">
-<h4>Sum</h4>
-<div>${total.toFixed(2)}</div>
-</div>
-<div class="stat-card">
-<h4>Mean</h4>
-<div>${mean(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Median</h4>
-<div>${median(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Mode</h4>
-<div>${mode(data)}</div>
-</div>
-<div class="stat-card">
-<h4>Range</h4>
-<div>${max-min}</div>
-</div>
-<div class="stat-card">
-<h4>Variance</h4>
-<div>${variance(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Std Dev</h4>
-<div>${stddev(data).toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Minimum</h4>
-<div>${min}</div>
-</div>
-<div class="stat-card">
-<h4>Maximum</h4>
-<div>${max}</div>
-</div>
-<div class="stat-card"> <h4>Q1</h4>
-<div>${q.q1.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Q2</h4>
-<div>${q.q2.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>Q3</h4>
-<div>${q.q3.toFixed(4)}</div>
-</div>
-<div class="stat-card">
-<h4>IQR</h4>
-<div>${q.iqr.toFixed(4)}</div>
-</div>
-</div>
-`;
-document
-.getElementById(
-"statsResult"
-)
-.innerHTML=result;
-addHistory(
-"Statistics calculated"
-);
+  const data=parseNumbers("dataInput");
+  if(data.length===0){alert("Please enter at least one valid number.");return;}
+  const type=document.getElementById("varianceType").value;
+  if(type==="sample" && data.length<2){alert("Sample variance requires at least two values.");return;}
+  const q=quartiles(data);
+  const total=data.reduce((a,b)=>a+b,0);
+  const min=Math.min(...data), max=Math.max(...data);
+  const varianceValue=variance(data,type);
+  const result=`
+  <div class="lesson-tip">Results use the ${type} variance formula.</div>
+  <div class="stats-grid">
+    <div class="stat-card"><h4>N</h4><div>${data.length}</div></div>
+    <div class="stat-card"><h4>Sum</h4><div>${total.toFixed(2)}</div></div>
+    <div class="stat-card"><h4>Mean</h4><div>${mean(data).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Median</h4><div>${median(data).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Mode</h4><div>${mode(data)}</div></div>
+    <div class="stat-card"><h4>Range</h4><div>${(max-min).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>${type==="sample"?"Sample variance":"Population variance"}</h4><div>${varianceValue.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Standard deviation</h4><div>${stddev(data,type).toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Minimum</h4><div>${min}</div></div>
+    <div class="stat-card"><h4>Maximum</h4><div>${max}</div></div>
+    <div class="stat-card"><h4>Q1</h4><div>${q.q1.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Q2</h4><div>${q.q2.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>Q3</h4><div>${q.q3.toFixed(4)}</div></div>
+    <div class="stat-card"><h4>IQR</h4><div>${q.iqr.toFixed(4)}</div></div>
+  </div>`;
+  document.getElementById("statsResult").innerHTML=result;
+  addHistory("Descriptive statistics calculated ("+type+")");
 }
 function factorial(n){
-if(n<0) return 0;
-let r=1;
-for(
-let i=2;
-i<=n;
-i++
-){
-r*=i;
+  if(!Number.isInteger(n)||n<0||n>170) return NaN;
+  let result=1;
+  for(let i=2;i<=n;i++) result*=i;
+  return result;
 }
-return r;
+function readNAndR(){
+  const nRaw=document.getElementById("nValue").value;
+  const rRaw=document.getElementById("rValue").value;
+  const n=Number(nRaw);
+  const r=Number(rRaw);
+  if(nRaw.trim()===""||!Number.isInteger(n)||n<0||n>170){
+    alert("Enter a whole number for n from 0 to 170.");
+    return null;
+  }
+  if(rRaw.trim()===""||!Number.isInteger(r)||r<0||r>n){
+    alert("Enter a whole number for r from 0 to n.");
+    return null;
+  }
+  return {n,r};
 }
 function factorialCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value );
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`${n}! = ${factorial(n)}`;
-addHistory(
-`Factorial (${n})`
-);
+  const raw=document.getElementById("nValue").value;
+  const n=Number(raw);
+  if(raw.trim()===""||!Number.isInteger(n)||n<0||n>170){
+    alert("Enter a whole number for n from 0 to 170.");
+    return;
+  }
+  const answer=factorial(n);
+  document.getElementById("probabilityResult").textContent=n+"! = "+answer.toLocaleString();
+  addHistory("Factorial: "+n+"! = "+answer);
 }
 function permutationCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value
-);
-let r=parseInt(
-document
-.getElementById(
-"rValue"
-).value
-);
-let result=
-factorial(n)
-/
-factorial(n-r);
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`nPr = ${result}`;
-addHistory(
-`𝑛𝑃{r}`
-);
+  const values=readNAndR(); if(!values) return;
+  const {n,r}=values;
+  const answer=factorial(n)/factorial(n-r);
+  document.getElementById("probabilityResult").textContent=n+"P"+r+" = "+answer.toLocaleString();
+  addHistory("Permutation: "+n+"P"+r+" = "+answer);
 }
 function combinationCalc(){
-let n=parseInt(
-document
-.getElementById(
-"nValue"
-).value );
-let r=parseInt(
-document
-.getElementById(
-"rValue"
-).value
-);
-let result=
-factorial(n)
-/
-(
-factorial(r)
-*
-factorial(n-r)
-);
-document
-.getElementById(
-"probabilityResult"
-)
-.innerHTML=
-`nCr = ${result}`;
-addHistory(
-`𝑛𝐶{r}`
-);
+  const values=readNAndR(); if(!values) return;
+  const {n,r}=values;
+  const answer=factorial(n)/(factorial(r)*factorial(n-r));
+  document.getElementById("probabilityResult").textContent=n+"C"+r+" = "+answer.toLocaleString();
+  addHistory("Combination: "+n+"C"+r+" = "+answer);
 }
 function calculateRegression(){
 let x=
@@ -967,7 +970,16 @@ alert(
 "X and Y must match."
 );
 return;
-} let meanX=
+} 
+if(x.every(value=>value===x[0])){
+  alert("X values must contain at least two different numbers to calculate regression.");
+  return;
+}
+if(y.every(value=>value===y[0])){
+  alert("Y values must contain at least two different numbers to calculate correlation.");
+  return;
+}
+let meanX=
 mean(x);
 let meanY=
 mean(y);
@@ -1301,6 +1313,11 @@ addHistory(
 
 }
   
+try{
+    const saved=JSON.parse(localStorage.getItem("statisticsSuiteHistory")||"[]");
+    if(Array.isArray(saved)) historyData=saved.filter(item=>typeof item==="string").slice(0,50);
+  }catch(error){historyData=[];}
+  renderHistory();
 showSection(
 "homeSection"
 );
