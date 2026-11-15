@@ -268,6 +268,34 @@ Result will appear here
 </div>
 
 </section>
+
+<section id="outlierSection" class="hidden">
+
+<div class="card">
+
+<h2>🚨 Outlier Detector</h2>
+
+<textarea
+id="outlierData"
+rows="5"
+placeholder="Example: 1,2,3,4,5,6,100">
+</textarea>
+
+<button onclick="detectOutliers()">
+Detect Outliers
+</button>
+
+<div
+class="result"
+id="outlierResult">
+
+Results appear here
+
+</div>
+
+</div>
+
+</section>
   
 </div>
 <div class="bottom-nav">
@@ -301,6 +329,14 @@ class="nav-btn"
 onclick="showSection('zscoreSection')">
 
 📐<br>Z
+
+</button>
+
+<button
+class="nav-btn"
+onclick="showSection('outlierSection')">
+
+🚨<br>Out
 
 </button>
   
