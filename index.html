@@ -133,6 +133,15 @@ width:auto;
 padding:10px;
 border-bottom:1px solid var(--border);
 }
+.lesson-tip{
+background:#2563eb;
+color:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+line-height:1.5;
+}
+  
 </style>
 </head>
 <body>
@@ -241,6 +250,14 @@ No calculations yet.
 
 <h2>📐 Z-Score Calculator</h2>
 
+  <div class="lesson-tip">
+
+💡 What is a Z-Score?
+
+A Z-Score shows how far a value is from the average measured in standard deviations.
+
+</div>
+  
 <input type="number"
 id="zValue"
 placeholder="Value (X)">
@@ -542,9 +559,11 @@ class="nav-btn"
 onclick="showSection('learnSection')">
 📚<br>Learn
 </button>
-
-<button
-  
+  <button
+class="nav-btn"
+onclick="showSection('percentileSection')">
+📈<br>Pct
+</button>
 </div>
 <script>
 let historyData=[];
