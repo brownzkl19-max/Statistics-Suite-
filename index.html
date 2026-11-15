@@ -11,6 +11,8 @@
 <meta property="og:title" content="Statistics Suite | Learn and Explore Statistics">
 <meta property="og:description" content="Explore statistical calculators, learning resources, and CSV data analysis in one educational workspace.">
 <meta name="twitter:card" content="summary">
+<meta property="og:url" content="https://brownzkl19-max.github.io/Statistics-Suite-/">
+<link rel="canonical" href="https://brownzkl19-max.github.io/Statistics-Suite-/">
   <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#163a63">
 <style>
@@ -152,6 +154,22 @@ button,.nav-btn{min-height:44px}
  .footer-links{justify-content:flex-start}
  .footer-bottom{grid-column:auto}
 }
+
+/* Phase 4: searchable formula library, charts, and install controls */
+.theme-button[hidden]{display:none}
+.resource-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:15px}
+.resource-grid .info-panel{min-width:0}
+.resource-grid .info-panel h3{font-size:16px}
+.resource-grid .info-panel p{font-size:13px;margin:8px 0}
+.resource-grid .info-panel button{margin-top:8px;width:auto;padding:9px 12px;font-size:12px}
+.search-count{font-size:12px;color:var(--muted);margin:8px 0}
+.visual-chart-wrap{margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
+.visual-chart-wrap h3{margin:0 0 5px}
+.visual-chart-wrap p{font-size:12px;color:var(--muted);margin:0 0 10px}
+.visual-chart{width:100%;overflow:hidden;border:1px solid var(--border);background:var(--surface-soft);border-radius:12px;padding:8px;color:var(--muted)}
+.visual-chart svg{display:block;width:100%;height:auto;max-height:300px}
+@media(max-width:640px){.resource-grid{grid-template-columns:1fr}.visual-chart{padding:4px}.resource-grid .info-panel button{min-height:42px}}
+
 </style>
 </head>
 <body>
@@ -162,6 +180,7 @@ button,.nav-btn{min-height:44px}
   </div>
   <div class="topbar-actions">
     <span class="topbar-note">Learn · Calculate · Understand</span>
+    <button id="installAppButton" class="theme-button" type="button" hidden>＋ <span>Install</span></button>
     <button class="theme-button" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ <span>Theme</span></button>
   </div>
 </header>
@@ -189,7 +208,8 @@ button,.nav-btn{min-height:44px}
   <nav class="side-nav">
     <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
     <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
-    <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
+    <button data-section="formulaSection" onclick="showSection('formulaSection')"><span class="nav-icon">⌕</span> Search & Formulas</button>
+     <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
   </nav>
   <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
 </aside>
@@ -240,6 +260,7 @@ They summarize data using measures such as Mean, Median, Mode, Range, Variance, 
 Calculate
 </button>
 <div id="statsResult"></div>
+<div class="visual-chart-wrap"><h3>Dataset Histogram</h3><p>Visual summary of how your values are distributed across intervals.</p><div id="statsHistogram" class="visual-chart" role="img" aria-label="Histogram of the entered dataset">Calculate statistics to display a chart.</div></div>
 </div>
 </section>
 <section id="probabilitySection" class="hidden">
@@ -291,6 +312,7 @@ class="result"
 id="regressionResult">
 Results appear here
 </div>
+<div class="visual-chart-wrap"><h3>Scatter Plot & Regression Line</h3><p>Each point represents one X and Y pair. The line shows the calculated linear trend.</p><div id="regressionChart" class="visual-chart" role="img" aria-label="Scatter plot with regression line">Calculate a regression to display the chart.</div></div>
 </div>
 </section>
 <section id="historySection" class="hidden">
@@ -634,6 +656,35 @@ Results appear here
   </div>
 </section>
 
+<section id="formulaSection" class="hidden">
+  <div class="card">
+    <div class="hero-kicker" style="color:var(--accent)">Study reference</div>
+    <h2>Search tools and statistical formulas</h2>
+    <p>Find a calculator or review a formula. Select a tool to open its calculator.</p>
+    <label for="resourceSearch">Search Statistics Suite</label>
+    <input id="resourceSearch" type="search" placeholder="Try mean, standard deviation, regression..." oninput="filterResources()" autocomplete="off">
+    <p id="searchCount" class="search-count" aria-live="polite">Showing all resources.</p>
+    <div class="resource-grid" id="resourceGrid">
+      <article class="info-panel searchable-item" data-keywords="mean average descriptive central tendency"><h3>Mean (Average)</h3><p><strong>Formula:</strong> x̄ = Σx / n</p><p>Add all observations, then divide by the number of observations.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="median middle value descriptive"><h3>Median</h3><p><strong>Formula:</strong> middle value of sorted data</p><p>Sort the values. For an even number of values, average the two middle values.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="mode most frequent descriptive"><h3>Mode</h3><p><strong>Formula:</strong> value(s) with the highest frequency</p><p>A dataset can have one mode, multiple modes, or no mode.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="range maximum minimum spread"><h3>Range</h3><p><strong>Formula:</strong> Range = Maximum − Minimum</p><p>The range describes the distance between the largest and smallest observations.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="population variance sample variance sigma squared s squared"><h3>Variance</h3><p><strong>Population:</strong> σ² = Σ(x − μ)² / N</p><p><strong>Sample:</strong> s² = Σ(x − x̄)² / (n − 1)</p><p>Variance measures the average squared distance from the mean.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="standard deviation square root variance spread"><h3>Standard Deviation</h3><p><strong>Formula:</strong> σ = √σ² or s = √s²</p><p>It describes the typical spread of values around the mean in the original data units.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="quartile q1 q2 q3 interquartile range iqr"><h3>Quartiles & IQR</h3><p><strong>Formula:</strong> IQR = Q3 − Q1</p><p>Quartiles divide ordered data into four parts. IQR measures the spread of the middle 50%.</p><button onclick="showSection('statsSection')">Open Descriptive Statistics</button></article>
+      <article class="info-panel searchable-item" data-keywords="z score standard score normal distribution"><h3>Z-Score</h3><p><strong>Formula:</strong> z = (x − μ) / σ</p><p>It tells how many standard deviations an observation is from the mean.</p><button onclick="showSection('zscoreSection')">Open Z-Score</button></article>
+      <article class="info-panel searchable-item" data-keywords="percentile p25 p50 p90 position"><h3>Percentile</h3><p><strong>Meaning:</strong> position in an ordered dataset</p><p>A percentile indicates the value at or below which a specified percentage of observations falls, based on the selected method.</p><button onclick="showSection('percentileSection')">Open Percentile</button></article>
+      <article class="info-panel searchable-item" data-keywords="outlier lower fence upper fence iqr"><h3>Outlier Fences</h3><p><strong>Lower:</strong> Q1 − 1.5 × IQR</p><p><strong>Upper:</strong> Q3 + 1.5 × IQR</p><p>Values outside these fences are flagged for review, not automatically treated as errors.</p><button onclick="showSection('outlierSection')">Open Outlier Detector</button></article>
+      <article class="info-panel searchable-item" data-keywords="correlation pearson r covariance relationship"><h3>Pearson Correlation</h3><p><strong>Formula:</strong> r = Σ[(x − x̄)(y − ȳ)] / √[Σ(x − x̄)² Σ(y − ȳ)²]</p><p>Correlation describes the direction and strength of a linear relationship.</p><button onclick="showSection('regressionSection')">Open Correlation & Regression</button></article>
+      <article class="info-panel searchable-item" data-keywords="linear regression slope intercept prediction equation"><h3>Linear Regression</h3><p><strong>Formula:</strong> ŷ = a + bx</p><p>b is the slope and a is the intercept. Use the equation to estimate Y from X within an appropriate context.</p><button onclick="showSection('regressionSection')">Open Correlation & Regression</button></article>
+      <article class="info-panel searchable-item" data-keywords="factorial permutation combination probability npr ncr"><h3>Permutations & Combinations</h3><p><strong>Permutation:</strong> nPr = n! / (n − r)!</p><p><strong>Combination:</strong> nCr = n! / [r!(n − r)!]</p><p>Permutations consider order; combinations do not.</p><button onclick="showSection('probabilitySection')">Open Probability</button></article>
+      <article class="info-panel searchable-item" data-keywords="frequency table count distribution categorical numeric"><h3>Frequency Table</h3><p><strong>Meaning:</strong> count of each distinct value</p><p>Organize observations by value and record how often each value occurs.</p><button onclick="showSection('frequencySection')">Open Frequency Table</button></article>
+      <article class="info-panel searchable-item" data-keywords="csv dataset data explorer import file chart"><h3>CSV Data Explorer</h3><p>Preview a CSV file, select a numeric column, and view summary statistics and a distribution chart.</p><button onclick="showSection('dataAnalysisSection')">Open CSV Explorer</button></article>
+    </div>
+    <div id="noSearchResults" class="lesson-tip hidden">No matching tools or formulas. Try another keyword.</div>
+  </div>
+</section>
+
 <section id="aboutSection" class="hidden">
   <div class="card">
     <div class="hero-kicker" style="color:var(--accent)">About the platform</div>
@@ -682,6 +733,7 @@ Results appear here
   <div class="footer-links" aria-label="Footer navigation">
     <button onclick="showSection('homeSection')">Home</button>
     <button onclick="showSection('learnSection')">Learning Center</button>
+    <button onclick="showSection('formulaSection')">Search & Formulas</button>
     <button onclick="showSection('aboutSection')">About & FAQ</button>
     <button onclick="showSection('statsSection')">Statistics Tools</button>
     <button onclick="showSection('dataAnalysisSection')">CSV Explorer</button>
@@ -695,6 +747,7 @@ Results appear here
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
   <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
+  <button class="nav-btn" data-section="formulaSection" onclick="showSection('formulaSection')">⌕<br>Search</button>
   <button class="nav-btn" data-section="aboutSection" onclick="showSection('aboutSection')">ⓘ<br>Help</button>
 </nav>
 <script>
@@ -849,6 +902,44 @@ function analyzeCSVColumn(){
   });
 }
 
+function filterResources(){
+  const query=document.getElementById("resourceSearch").value.trim().toLowerCase();
+  const items=[...document.querySelectorAll(".searchable-item")];
+  let visible=0;
+  items.forEach(item=>{
+    const match=!query||item.textContent.toLowerCase().includes(query)||item.dataset.keywords.includes(query);
+    item.classList.toggle("hidden",!match);
+    if(match)visible++;
+  });
+  document.getElementById("noSearchResults").classList.toggle("hidden",visible!==0);
+  document.getElementById("searchCount").textContent=query?("Found "+visible+" matching resource"+(visible===1?"":"s")+"."):("Showing all "+visible+" resources.");
+}
+function drawStatsHistogram(data){
+  const target=document.getElementById("statsHistogram");
+  const min=Math.min(...data),max=Math.max(...data),bins=Math.min(8,Math.max(1,Math.ceil(Math.sqrt(data.length))));
+  const span=max-min,counts=Array(bins).fill(0);
+  data.forEach(value=>{const index=span===0?0:Math.min(bins-1,Math.floor((value-min)/span*bins));counts[index]++;});
+  const peak=Math.max(...counts,1),width=640,height=240,left=42,bottom=194,plotHeight=160,barGap=7,barWidth=(width-left-18)/bins-barGap;
+  let svg='<svg viewBox="0 0 640 240" role="img" aria-label="Histogram with '+bins+' intervals">';
+  svg+='<line x1="'+left+'" y1="18" x2="'+left+'" y2="'+bottom+'" stroke="currentColor" opacity=".45"/><line x1="'+left+'" y1="'+bottom+'" x2="625" y2="'+bottom+'" stroke="currentColor" opacity=".45"/>';
+  counts.forEach((count,i)=>{const h=count/peak*plotHeight,x=left+10+i*(barWidth+barGap),y=bottom-h,low=span===0?min:min+span*i/bins,high=span===0?max:min+span*(i+1)/bins;svg+='<rect x="'+x+'" y="'+y+'" width="'+barWidth+'" height="'+h+'" rx="5" fill="#2563eb" opacity=".82"><title>'+low.toFixed(2)+' to '+high.toFixed(2)+': '+count+' values</title></rect><text x="'+(x+barWidth/2)+'" y="'+(bottom+17)+'" text-anchor="middle" font-size="10" fill="currentColor">'+count+'</text>';});
+  svg+='<text x="12" y="18" font-size="11" fill="currentColor">Frequency</text><text x="335" y="232" text-anchor="middle" font-size="11" fill="currentColor">Value intervals</text></svg>';
+  target.innerHTML=svg;
+}
+function drawRegressionChart(xValues,yValues,slope,intercept){
+  const target=document.getElementById("regressionChart");
+  const minX=Math.min(...xValues),maxX=Math.max(...xValues),minY=Math.min(...yValues),maxY=Math.max(...yValues);
+  const padX=(maxX-minX||1)*.12,padY=(maxY-minY||1)*.16,x0=minX-padX,x1=maxX+padX,y0=minY-padY,y1=maxY+padY;
+  const left=52,right=620,top=18,bottom=220;
+  const px=value=>left+(value-x0)/(x1-x0)*(right-left),py=value=>bottom-(value-y0)/(y1-y0)*(bottom-top);
+  let svg='<svg viewBox="0 0 650 255" role="img" aria-label="Scatter plot of '+xValues.length+' paired observations with a regression line">';
+  svg+='<line x1="'+left+'" y1="'+top+'" x2="'+left+'" y2="'+bottom+'" stroke="currentColor" opacity=".5"/><line x1="'+left+'" y1="'+bottom+'" x2="'+right+'" y2="'+bottom+'" stroke="currentColor" opacity=".5"/>';
+  svg+='<line x1="'+px(x0)+'" y1="'+py(slope*x0+intercept)+'" x2="'+px(x1)+'" y2="'+py(slope*x1+intercept)+'" stroke="#0f766e" stroke-width="3"/>';
+  xValues.forEach((value,i)=>{svg+='<circle cx="'+px(value)+'" cy="'+py(yValues[i])+'" r="5" fill="#2563eb" stroke="white" stroke-width="1.5"><title>X: '+value+', Y: '+yValues[i]+'</title></circle>';});
+  svg+='<text x="335" y="249" text-anchor="middle" font-size="11" fill="currentColor">X values</text><text x="13" y="15" font-size="11" fill="currentColor">Y</text></svg>';
+  target.innerHTML=svg;
+}
+
 function showSection(id){
   document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
   const target=document.getElementById(id);
@@ -990,6 +1081,7 @@ function calculateStats(){
     <div class="stat-card"><h4>IQR</h4><div>${q.iqr.toFixed(4)}</div></div>
   </div>`;
   document.getElementById("statsResult").innerHTML=result;
+  drawStatsHistogram(data);
   addHistory("Descriptive statistics calculated ("+type+")");
 }
 function factorial(n){
@@ -1134,6 +1226,7 @@ ${slope.toFixed(4)}
 x +
 ${intercept.toFixed(4)}
 `;
+drawRegressionChart(x,y,slope,intercept);
 addHistory(
 "Regression calculated"
 );
@@ -1404,6 +1497,20 @@ try{
     if(Array.isArray(saved)) historyData=saved.filter(item=>typeof item==="string").slice(0,50);
   }catch(error){historyData=[];}
   renderHistory();
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+}
+let installPromptEvent=null;
+window.addEventListener("beforeinstallprompt",event=>{
+  event.preventDefault();installPromptEvent=event;
+  const button=document.getElementById("installAppButton");if(button)button.hidden=false;
+});
+document.getElementById("installAppButton").addEventListener("click",async()=>{
+  if(!installPromptEvent)return;
+  installPromptEvent.prompt();await installPromptEvent.userChoice;
+  installPromptEvent=null;document.getElementById("installAppButton").hidden=true;
+});
+window.addEventListener("appinstalled",()=>{const button=document.getElementById("installAppButton");if(button)button.hidden=true;});
 showSection(
 "homeSection"
 );
