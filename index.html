@@ -1044,10 +1044,15 @@ addHistory(
 }
 function calculateZScore(){
 
+let x=parseFloat(
 document.getElementById("zValue").value
 );
+
+let meanValue=parseFloat(
 document.getElementById("zMean").value
 );
+
+let sd=parseFloat(
 document.getElementById("zStd").value
 );
 
@@ -1062,6 +1067,9 @@ alert(
 );
 return;
 }
+
+let z=(x-meanValue)/sd;
+
 document
 .getElementById("zscoreResult")
 .innerHTML=
@@ -1073,8 +1081,12 @@ ${z.toFixed(4)}
 Formula:
 (x − μ) / σ
 `;
+
+addHistory(
 `Z-Score = ${z.toFixed(4)}`
 );
+
+}
   function detectOutliers(){
 
 let data=
