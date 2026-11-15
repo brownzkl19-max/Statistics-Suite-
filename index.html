@@ -146,6 +146,14 @@ button,.nav-btn{min-height:44px}
 .footer-links button{width:auto;min-height:36px;padding:7px 9px;background:transparent;color:var(--muted);font-size:12px}
 .footer-links button:hover{background:var(--accent-soft);color:var(--accent)}
 .footer-bottom{grid-column:1/-1;border-top:1px solid var(--border);padding-top:13px;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.site-search-wrap{position:relative;width:min(30vw,300px)}.site-search{margin:0;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);font-size:13px}
+.search-results{position:absolute;right:0;top:calc(100% + 9px);width:min(340px,90vw);max-height:55vh;overflow:auto;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);z-index:50}
+.search-results button{display:block;width:100%;padding:10px 12px;margin:2px 0;text-align:left;background:transparent;color:var(--text);font-size:13px}.search-results button:hover{background:var(--accent-soft);color:var(--accent);transform:none}
+.formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.formula-card{min-width:0;padding:16px;background:var(--surface-soft);border:1px solid var(--border);border-radius:12px}
+.formula-card h3{margin:0 0 9px;font-size:15px;color:var(--primary)}.formula-card p{margin:9px 0 0;font-size:13px;color:var(--muted)}
+.formula-math{padding:11px;background:var(--surface);border-radius:8px;font-family:Georgia,serif;font-size:16px;overflow-wrap:anywhere;color:var(--text)}
+@media(max-width:640px){.site-search-wrap{width:min(43vw,180px)}.site-search{padding:8px;font-size:12px}.formula-grid{grid-template-columns:1fr}.formula-math{font-size:14px}}
 @media(max-width:640px){
  .about-grid{grid-template-columns:1fr}
  .site-footer{grid-template-columns:1fr;gap:12px;margin-top:26px}
@@ -161,6 +169,7 @@ button,.nav-btn{min-height:44px}
     <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic Statistics Workspace</div></div>
   </div>
   <div class="topbar-actions">
+    <div class="site-search-wrap"><label class="visually-hidden" for="siteSearch">Search Statistics Suite</label><input id="siteSearch" class="site-search" type="search" placeholder="Search tools and formulas…" autocomplete="off" oninput="searchSite(this.value)"><div id="siteSearchResults" class="search-results hidden" role="listbox" aria-label="Search results"></div></div>
     <span class="topbar-note">Learn · Calculate · Understand</span>
     <button class="theme-button" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ <span>Theme</span></button>
   </div>
@@ -189,6 +198,7 @@ button,.nav-btn{min-height:44px}
   <nav class="side-nav">
     <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
     <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
+    <button data-section="formulaSection" onclick="showSection('formulaSection')"><span class="nav-icon">ƒ</span> Formula Library</button>
     <button data-section="aboutSection" onclick="showSection('aboutSection')"><span class="nav-icon">ⓘ</span> About & Help</button>
   </nav>
   <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
@@ -217,6 +227,7 @@ button,.nav-btn{min-height:44px}
     <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
     <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
   </div>
+  <article class="tool-card site-section"><div class="tool-icon">ƒ</div><h3>Formula Library</h3><p>Review common statistical formulas with plain-language explanations and examples.</p><button onclick="showSection('formulaSection')">Browse formulas</button></article>
   <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
 <section id="statsSection" class="hidden">
@@ -634,6 +645,20 @@ Results appear here
   </div>
 </section>
 
+<section id="formulaSection" class="hidden"><div class="card"><div class="hero-kicker" style="color:var(--accent)">Study reference</div><h2 style="font-size:27px;margin-top:8px">Statistics Formula Library</h2><p>Review common introductory statistics formulas and what they mean.</p><div class="formula-grid">
+<article class="formula-card"><h3>Mean</h3><div class="formula-math">x̄ = Σx / n</div><p>Add observations and divide by their count.</p></article>
+<article class="formula-card"><h3>Population variance</h3><div class="formula-math">σ² = Σ(x − μ)² / N</div><p>Average squared distance from the population mean.</p></article>
+<article class="formula-card"><h3>Sample variance</h3><div class="formula-math">s² = Σ(x − x̄)² / (n − 1)</div><p>Uses n − 1 when a sample estimates population variability.</p></article>
+<article class="formula-card"><h3>Standard deviation</h3><div class="formula-math">σ = √σ² or s = √s²</div><p>The square root of variance, in the original data units.</p></article>
+<article class="formula-card"><h3>Range</h3><div class="formula-math">Maximum − Minimum</div><p>Difference between the largest and smallest observation.</p></article>
+<article class="formula-card"><h3>Z-score</h3><div class="formula-math">z = (x − μ) / σ</div><p>How many standard deviations an observation is from the mean.</p></article>
+<article class="formula-card"><h3>Interquartile range</h3><div class="formula-math">IQR = Q3 − Q1</div><p>Spread of the middle 50% of ordered observations.</p></article>
+<article class="formula-card"><h3>Permutation</h3><div class="formula-math">nPr = n! / (n − r)!</div><p>Counts arrangements when order matters.</p></article>
+<article class="formula-card"><h3>Combination</h3><div class="formula-math">nCr = n! / [r!(n − r)!]</div><p>Counts selections when order does not matter.</p></article>
+<article class="formula-card"><h3>Correlation</h3><div class="formula-math">r = Σ[(x − x̄)(y − ȳ)] / √[Σ(x − x̄)²Σ(y − ȳ)²]</div><p>Describes direction and strength of a linear relationship.</p></article>
+<article class="formula-card"><h3>Linear regression</h3><div class="formula-math">ŷ = a + bx</div><p>Estimates y using an intercept and slope.</p></article>
+<article class="formula-card"><h3>Coefficient of determination</h3><div class="formula-math">R² = r²</div><p>For simple linear regression, variation explained by the linear model.</p></article>
+</div><div class="lesson-tip">Notation and quartile methods can vary by course. Follow the method required by your instructor or research design.</div></div></section>
 <section id="aboutSection" class="hidden">
   <div class="card">
     <div class="hero-kicker" style="color:var(--accent)">About the platform</div>
@@ -682,6 +707,7 @@ Results appear here
   <div class="footer-links" aria-label="Footer navigation">
     <button onclick="showSection('homeSection')">Home</button>
     <button onclick="showSection('learnSection')">Learning Center</button>
+    <button onclick="showSection('formulaSection')">Formula Library</button>
     <button onclick="showSection('aboutSection')">About & FAQ</button>
     <button onclick="showSection('statsSection')">Statistics Tools</button>
     <button onclick="showSection('dataAnalysisSection')">CSV Explorer</button>
@@ -695,7 +721,7 @@ Results appear here
   <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
   <button class="nav-btn" data-section="dataAnalysisSection" onclick="showSection('dataAnalysisSection')">▥<br>Data</button>
   <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
-  <button class="nav-btn" data-section="aboutSection" onclick="showSection('aboutSection')">ⓘ<br>Help</button>
+  <button class="nav-btn" data-section="formulaSection" onclick="showSection('formulaSection')">ƒ<br>Formulas</button>
 </nav>
 <script>
 let historyData=[];
@@ -849,6 +875,12 @@ function analyzeCSVColumn(){
   });
 }
 
+function searchSite(query){
+ const panel=document.getElementById('siteSearchResults');if(!panel)return;const term=query.trim().toLowerCase();panel.replaceChildren();if(!term){panel.classList.add('hidden');return;}
+ const matches=[...document.querySelectorAll('.container section')].map(section=>({id:section.id,title:section.querySelector('h2')?.textContent||section.id,text:section.innerText.toLowerCase()})).filter(item=>item.text.includes(term)).slice(0,8);
+ if(!matches.length){const empty=document.createElement('p');empty.textContent='No matching tools or topics found.';empty.className='chart-caption';panel.appendChild(empty);}
+ matches.forEach(item=>{const button=document.createElement('button');button.type='button';button.textContent=item.title;button.setAttribute('role','option');button.onclick=()=>{showSection(item.id);panel.classList.add('hidden');document.getElementById('siteSearch').value='';};panel.appendChild(button);});panel.classList.remove('hidden');
+}
 function showSection(id){
   document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
   const target=document.getElementById(id);
