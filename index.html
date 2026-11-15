@@ -3,224 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistics Suite</title>
+<title>Statistics Suite | Free Online Statistics Calculator & Learning Tools</title>
+<meta name="description" content="Explore Statistics Suite, a free educational platform for descriptive statistics, probability, correlation, regression, data analysis, and statistics lessons.">
+<meta name="robots" content="index,follow">
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3b82f6">
+<meta name="theme-color" content="#163a63">
 <style>
 :root{
---bg:#0f172a;
---card:#1e293b;
---accent:#3b82f6;
---text:#ffffff;
---muted:#94a3b8;
---border:#334155;
+  color-scheme:light;
+  --bg:#f5f7fb;--surface:#ffffff;--surface-soft:#eef3fa;
+  --primary:#163a63;--accent:#2563eb;--accent-soft:#e8f0ff;
+  --text:#172b45;--muted:#64748b;--border:#dce4ef;
+  --success:#15803d;--shadow:0 8px 24px rgba(22,58,99,.07);
 }
-.light{
---bg:#f8fafc;
---card:#ffffff;
---accent:#2563eb;
---text:#0f172a;
---muted:#64748b;
---border:#cbd5e1;
-}
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Segoe UI,sans-serif;
-}
-body{
-background:var(--bg);
-color:var(--text);
-padding-bottom:80px;
-}
-header{
-background:var(--card);
-padding:18px;
-position:sticky;
-top:0;
-border-bottom:1px solid var(--border);
-}
-header h1{
-font-size:24px;
-} header p{
-color:var(--muted);
-margin-top:5px;
-}
-.container{
-padding:15px;
-max-width:900px;
-margin:auto;
-}
-.card{
-background:var(--card);
-border:1px solid var(--border);
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
-}
-input,
-textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-margin-bottom:10px;
-border-radius:10px;
-border:1px solid var(--border);
-background:var(--bg);
-color:var(--text);
-}
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:var(--accent);
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-.result{
-margin-top:12px;
-background:var(--bg);
-padding:12px;
-border-radius:10px;
-border:1px solid var(--border);
-} .stats-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:12px;
-}
-.stat-card{
-background:var(--bg);
-padding:12px;
-border-radius:12px;
-text-align:center;
-border:1px solid var(--border);
-}
-.stat-card h4{
-font-size:13px;
-color:var(--muted);
-margin-bottom:5px;
-}
-.stat-card div{
-font-size:20px;
-font-weight:bold;
-}
-.hidden{
-display:none;
-}
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:var(--card);
-display:flex;
-overflow-x:auto;
-padding:5px;
-justify-content:space-around;
-align-items:center;
-border-top:1px solid var(--border);
-}
- .nav-btn{
-flex-shrink:0;
-min-width:70px;
-background:none;
-border:none;
-color:var(--text);
-font-size:12px;
-width:auto;
-} .history-item{
-padding:10px;
-border-bottom:1px solid var(--border);
-}
-.lesson-tip{
-background:#2563eb;
-color:white;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-line-height:1.5;
-}
-  
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;line-height:1.55;padding-bottom:0}
+button,input,textarea{font:inherit}
+button{border:0;border-radius:10px;background:var(--accent);color:#fff;padding:12px 16px;font-weight:600;cursor:pointer;transition:background .18s,transform .18s}
+button:hover{background:#1d4ed8;transform:translateY(-1px)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+.topbar{height:76px;position:sticky;top:0;z-index:20;margin-left:258px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:21px}
+.brand-name{font-weight:800;letter-spacing:-.03em;color:var(--primary);font-size:18px}
+.brand-subtitle{font-size:11px;color:var(--muted);margin-top:-3px}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.topbar-note{font-size:13px;color:var(--muted)}
+.theme-button{width:auto;background:var(--surface-soft);color:var(--primary);padding:10px 13px}
+.sidebar{position:fixed;inset:0 auto 0 0;width:258px;background:var(--primary);color:#fff;padding:25px 16px;z-index:30;overflow-y:auto}
+.sidebar-brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px;border-bottom:1px solid rgba(255,255,255,.16)}
+.sidebar-brand .brand-mark{background:#fff;color:var(--primary)}
+.sidebar-brand .brand-name{color:#fff}
+.sidebar-label{padding:23px 12px 9px;color:#a9bfd9;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.side-nav{display:grid;gap:5px}
+.side-nav button{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:11px 13px;background:transparent;color:#dbeafe;border-radius:9px;font-size:13px;font-weight:600}
+.side-nav button:hover,.side-nav button.active{background:rgba(255,255,255,.15);color:#fff;transform:none}
+.side-nav .nav-icon{width:22px;text-align:center;font-size:16px}
+.sidebar-footer{margin:30px 8px 0;padding:14px;border:1px solid rgba(255,255,255,.18);border-radius:12px;color:#dbeafe;font-size:12px}
+.container{max-width:1240px;margin:0 auto 0 258px;padding:30px 34px 60px}
+.card{background:var(--surface);border:1px solid var(--border);padding:22px;border-radius:16px;margin-bottom:20px;box-shadow:var(--shadow)}
+.card h2{font-size:19px;letter-spacing:-.02em;color:var(--primary);margin:0 0 12px}
+.card h3{color:var(--primary);margin:20px 0 8px}
+.card p{color:var(--muted);margin:7px 0}
+input,textarea{width:100%;padding:13px 14px;margin:9px 0 13px;border-radius:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text)}
+textarea{resize:vertical;min-height:90px}
+label{font-size:13px;font-weight:700;color:var(--text)}
+.result{margin-top:15px;background:var(--surface-soft);padding:16px;border-radius:12px;border:1px solid var(--border);overflow-x:auto}
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.stat-card{background:#f8faff;padding:15px;border-radius:12px;text-align:left;border:1px solid var(--border);min-width:0}
+.stat-card h4{font-size:12px;color:var(--muted);margin:0 0 5px;font-weight:700}
+.stat-card div{font-size:20px;font-weight:800;color:var(--primary);overflow-wrap:anywhere}
+.hidden{display:none!important}
+.lesson-tip{background:var(--accent-soft);color:var(--primary);padding:15px 17px;border-radius:12px;margin-bottom:16px;line-height:1.6;border-left:4px solid var(--accent)}
+.history-item{padding:12px 4px;border-bottom:1px solid var(--border);color:var(--muted)}
+.home-hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#163a63,#24558b);color:#fff;padding:34px;border-radius:20px;margin-bottom:22px;box-shadow:0 14px 30px rgba(22,58,99,.15)}
+.home-hero:after{content:"";position:absolute;width:260px;height:260px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-65px;top:-110px;box-shadow:0 0 0 30px rgba(255,255,255,.04),0 0 0 65px rgba(255,255,255,.03)}
+.hero-kicker{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#bfdbfe}
+.home-hero h2{font-size:clamp(26px,4vw,38px);line-height:1.15;max-width:620px;margin:12px 0}
+.home-hero p{max-width:620px;color:#dbeafe;font-size:15px;margin:0 0 22px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+.hero-actions button{width:auto;background:#fff;color:var(--primary)}
+.hero-actions .secondary{background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:26px 0 14px}
+.section-heading h2{font-size:19px;color:var(--primary);margin:0}
+.section-heading p{font-size:13px;color:var(--muted);margin:3px 0 0}
+.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:19px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:180px}
+.tool-card .tool-icon{width:42px;height:42px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:20px;margin-bottom:13px}
+.tool-card h3{font-size:15px;color:var(--primary);margin:0 0 5px}
+.tool-card p{font-size:12px;color:var(--muted);margin:0 0 15px;flex:1}
+.tool-card button{width:auto;align-self:flex-start;padding:9px 13px;font-size:12px}
+.home-note{background:#fff;border:1px solid var(--border);padding:18px;border-radius:14px;margin-top:18px;color:var(--muted);font-size:13px}
+.bottom-nav{display:none}
+body.dark{color-scheme:dark;--bg:#0f172a;--surface:#1e293b;--surface-soft:#26364b;--primary:#dbeafe;--accent:#3b82f6;--accent-soft:#1e3a5f;--text:#f1f5f9;--muted:#a8b7ca;--border:#3b4b61;--shadow:0 8px 24px rgba(0,0,0,.16)}
+body.dark .topbar{background:rgba(30,41,59,.95)}
+body.dark .brand-name,body.dark .card h2,body.dark .card h3,body.dark .section-heading h2,body.dark .tool-card h3,body.dark .stat-card div{color:#dbeafe}
+body.dark input,body.dark textarea,body.dark .stat-card{background:#172438;color:#f1f5f9}
+body.dark .theme-button{background:#26364b;color:#dbeafe}
+body.dark .home-note{background:var(--surface);border-color:var(--border)}
+@media(max-width:900px){.sidebar{width:220px}.topbar{margin-left:220px;padding:0 22px}.container{margin-left:220px;padding:24px 22px}.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){body{padding-bottom:72px}.sidebar{display:none}.topbar{height:66px;margin-left:0;padding:0 16px}.brand-mark{width:37px;height:37px}.brand-name{font-size:16px}.topbar-note{display:none}.container{margin:0;padding:18px 14px 30px}.home-hero{padding:25px 21px}.card{padding:17px}.tool-grid{grid-template-columns:1fr 1fr;gap:10px}.tool-card{padding:14px;min-height:174px}.tool-card .tool-icon{width:36px;height:36px}.tool-card h3{font-size:13px}.tool-card p{font-size:11px}.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:25;background:var(--surface);border-top:1px solid var(--border);padding:7px 3px calc(7px + env(safe-area-inset-bottom));justify-content:space-around;gap:2px}.bottom-nav .nav-btn{flex:1;min-width:0;width:auto;background:transparent;color:var(--muted);font-size:10px;padding:5px 2px;border-radius:8px}.bottom-nav .nav-btn.active{background:var(--accent-soft);color:var(--accent)}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-heading{align-items:start;flex-direction:column}}
+@media(max-width:370px){.tool-grid{grid-template-columns:1fr}.topbar-actions{gap:4px}.brand-subtitle{display:none}}
 </style>
 </head>
 <body>
-<header>
-<h1>📊 Statistics Suite</h1>
-<p>Professional Statistics Calculator</p>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">∑</div>
+    <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic Statistics Workspace</div></div>
+  </div>
+  <div class="topbar-actions">
+    <span class="topbar-note">Learn · Calculate · Understand</span>
+    <button class="theme-button" type="button" onclick="toggleTheme()" aria-label="Toggle dark mode">◐ <span>Theme</span></button>
+  </div>
 </header>
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="sidebar-brand">
+    <div class="brand-mark" aria-hidden="true">∑</div>
+    <div><div class="brand-name">Statistics Suite</div><div class="brand-subtitle">Academic workspace</div></div>
+  </div>
+  <div class="sidebar-label">Workspace</div>
+  <nav class="side-nav">
+    <button class="active" data-section="homeSection" onclick="showSection('homeSection')"><span class="nav-icon">⌂</span> Overview</button>
+    <button data-section="statsSection" onclick="showSection('statsSection')"><span class="nav-icon">▦</span> Descriptive Statistics</button>
+    <button data-section="probabilitySection" onclick="showSection('probabilitySection')"><span class="nav-icon">◉</span> Probability</button>
+    <button data-section="regressionSection" onclick="showSection('regressionSection')"><span class="nav-icon">⌁</span> Correlation & Regression</button>
+  </nav>
+  <div class="sidebar-label">More tools</div>
+  <nav class="side-nav">
+    <button data-section="zscoreSection" onclick="showSection('zscoreSection')"><span class="nav-icon">σ</span> Z-Score</button>
+    <button data-section="outlierSection" onclick="showSection('outlierSection')"><span class="nav-icon">⌖</span> Outlier Detector</button>
+    <button data-section="percentileSection" onclick="showSection('percentileSection')"><span class="nav-icon">％</span> Percentiles</button>
+    <button data-section="frequencySection" onclick="showSection('frequencySection')"><span class="nav-icon">▤</span> Frequency Table</button>
+  </nav>
+  <div class="sidebar-label">Study</div>
+  <nav class="side-nav">
+    <button data-section="learnSection" onclick="showSection('learnSection')"><span class="nav-icon">▣</span> Learning Center</button>
+    <button data-section="historySection" onclick="showSection('historySection')"><span class="nav-icon">◷</span> Calculation History</button>
+  </nav>
+  <div class="sidebar-footer">A learning-focused toolkit for exploring data and understanding statistical concepts.</div>
+</aside>
 <div class="container">
 <section id="homeSection">
-
-<div class="card">
-
-<h2>📊 Statistics Suite</h2>
-
-<p>
-Learn statistics, understand concepts, and use calculators all in one place.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>📚 Learn Statistics</h2>
-
-<p>
-Understand Mean, Median, Quartiles, Z-Scores, Percentiles, Outliers, Correlation and more.
-</p>
-
-<button onclick="showSection('learnSection')">
-Start Learning →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📊 Statistical Tools</h2>
-
-<p>
-Calculate descriptive statistics, quartiles, IQR, percentiles, z-scores and outliers.
-</p>
-
-<button onclick="showSection('statsSection')">
-Open Tools →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>📈 Data Analysis</h2>
-
-<p>
-Explore correlation and regression analysis.
-</p>
-
-<button onclick="showSection('regressionSection')">
-Open Analysis →
-</button>
-
-</div>
-
-<div class="card">
-
-<h2>🎲 Probability Tools</h2>
-
-<p>
-Use Factorial, Permutation and Combination calculators.
-</p>
-
-<button onclick="showSection('probabilitySection')">
-Open Probability →
-</button>
-
-</div>
-
+  <div class="home-hero">
+    <div class="hero-kicker">Your academic statistics workspace</div>
+    <h2>Make sense of data.<br>Build confidence in statistics.</h2>
+    <p>Explore statistical concepts, calculate important measures, and understand what your data is telling you—all in one learning-friendly workspace.</p>
+    <div class="hero-actions">
+      <button onclick="showSection('statsSection')">Open statistics tools →</button>
+      <button class="secondary" onclick="showSection('learnSection')">Explore learning center</button>
+    </div>
+  </div>
+  <div class="section-heading"><div><h2>Explore your workspace</h2><p>Choose a tool to begin working with your data.</p></div></div>
+  <div class="tool-grid">
+    <article class="tool-card"><div class="tool-icon">▦</div><h3>Descriptive Statistics</h3><p>Summarize datasets using mean, median, mode, variance, standard deviation, and quartiles.</p><button onclick="showSection('statsSection')">Open calculator</button></article>
+    <article class="tool-card"><div class="tool-icon">◉</div><h3>Probability Tools</h3><p>Explore factorials, permutations, and combinations with numerical examples.</p><button onclick="showSection('probabilitySection')">Open calculator</button></article>
+    <article class="tool-card"><div class="tool-icon">⌁</div><h3>Correlation & Regression</h3><p>Examine relationships between two variables and calculate a linear regression equation.</p><button onclick="showSection('regressionSection')">Analyze data</button></article>
+    <article class="tool-card"><div class="tool-icon">σ</div><h3>Z-Score Calculator</h3><p>Find how far an observation is from the mean in standard deviation units.</p><button onclick="showSection('zscoreSection')">Calculate Z-score</button></article>
+    <article class="tool-card"><div class="tool-icon">⌖</div><h3>Outlier Detector</h3><p>Use the interquartile range method to identify unusually low or high values.</p><button onclick="showSection('outlierSection')">Check outliers</button></article>
+    <article class="tool-card"><div class="tool-icon">％</div><h3>Percentile Calculator</h3><p>Calculate percentile values to understand the position of observations in a dataset.</p><button onclick="showSection('percentileSection')">Find percentile</button></article>
+    <article class="tool-card"><div class="tool-icon">▤</div><h3>Frequency Table</h3><p>Organize values and see how often each observation occurs.</p><button onclick="showSection('frequencySection')">Create table</button></article>
+    <article class="tool-card"><div class="tool-icon">▣</div><h3>Learning Center</h3><p>Review essential statistical terms, formulas, and beginner-friendly explanations.</p><button onclick="showSection('learnSection')">Start learning</button></article>
+    <article class="tool-card"><div class="tool-icon">◷</div><h3>Calculation History</h3><p>Review calculations completed during your current session.</p><button onclick="showSection('historySection')">View history</button></article>
+  </div>
+  <div class="home-note"><strong>Learning tip:</strong> Try a calculator with a small sample dataset first. Then change the values and observe how the results differ.</div>
 </section>
 <section id="statsSection" class="hidden">
 <div class="card">
@@ -610,75 +537,29 @@ Results appear here
 </section>
   
 </div>
-<div class="bottom-nav">
-<button
-class="nav-btn"
-onclick="showSection('homeSection')">
-🏠<br>Home
-</button>
-<button
-class="nav-btn"
-onclick="showSection('statsSection')">
-📊<br>Stats
-</button>
-<button
-class="nav-btn"
-onclick="showSection('probabilitySection')"> 🎲<br>Prob
-</button>
-<button
-class="nav-btn"
-onclick="showSection('regressionSection')">
-📉<br>Reg
-</button>
-<button
-class="nav-btn"
-onclick="showSection('historySection')">
-📜<br>History
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('zscoreSection')">
-
-📐<br>Z
-
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('outlierSection')">
-🚨<br>Out
-</button>
-
-<button
-class="nav-btn"
-onclick="showSection('learnSection')">
-📚<br>Learn
-</button>
-  <button
-class="nav-btn"
-onclick="showSection('percentileSection')">
-📈<br>Pct
-</button>
-  <button
-class="nav-btn"
-onclick="showSection('frequencySection')">
-📋<br>Freq
-</button>
-</div>
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <button class="nav-btn active" data-section="homeSection" onclick="showSection('homeSection')">⌂<br>Home</button>
+  <button class="nav-btn" data-section="statsSection" onclick="showSection('statsSection')">▦<br>Stats</button>
+  <button class="nav-btn" data-section="probabilitySection" onclick="showSection('probabilitySection')">◉<br>Prob.</button>
+  <button class="nav-btn" data-section="regressionSection" onclick="showSection('regressionSection')">⌁<br>Analysis</button>
+  <button class="nav-btn" data-section="learnSection" onclick="showSection('learnSection')">▣<br>Learn</button>
+</nav>
 <script>
 let historyData=[];
 function showSection(id){
-document.querySelectorAll("section")
-.forEach(sec=>{
-sec.classList.add("hidden");
+  document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
+  const target=document.getElementById(id);
+  if(target) target.classList.remove("hidden");
+  document.querySelectorAll("[data-section]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.section===id);
+  });
 });
 document
 .getElementById(id)
 .classList.remove("hidden");
 }
 function toggleTheme(){
-document.body.classList.toggle("light");
+  document.body.classList.toggle("dark");
 }
 function addHistory(item){
 historyData.unshift(item);
