@@ -875,6 +875,21 @@ function analyzeCSVColumn(){
   });
 }
 
+function renderHistogram(data,targetId){
+ const target=document.getElementById(targetId);if(!target||!data.length)return;
+ const sorted=[...data].sort((a,b)=>a-b),min=sorted[0],max=sorted[sorted.length-1],bins=Math.min(8,Math.max(1,Math.ceil(Math.sqrt(data.length)))),counts=Array(bins).fill(0),span=max-min;
+ data.forEach(v=>counts[span===0?0:Math.min(bins-1,Math.floor((v-min)/span*bins))]++);
+ const w=640,h=230,l=42,r=14,t=16,b=42,pw=w-l-r,ph=h-t-b,topCount=Math.max(...counts,1);
+ const bars=counts.map((count,i)=>{const bw=pw/bins*.68,x=l+(i+.16)*pw/bins,y=t+ph-count/topCount*ph,bh=count/topCount*ph,low=span===0?min:min+span*i/bins,high=span===0?max:min+span*(i+1)/bins;return '<g class="chart-point"><title>'+low.toPrecision(4)+' to '+high.toPrecision(4)+': '+count+' value(s)</title><rect x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" width="'+bw.toFixed(2)+'" height="'+bh.toFixed(2)+'" rx="5" fill="var(--accent)" opacity=".85"/><text x="'+(x+bw/2).toFixed(2)+'" y="'+(h-17)+'" text-anchor="middle" font-size="10" fill="currentColor">'+(i+1)+'</text></g>';}).join("");
+ target.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Histogram with '+bins+' value ranges"><line x1="'+l+'" y1="'+(t+ph)+'" x2="'+(w-r)+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".45"/>'+bars+'<text x="10" y="18" font-size="10" fill="currentColor">Count</text><text x="'+w/2+'" y="'+(h-2)+'" text-anchor="middle" font-size="10" fill="currentColor">Value range (bins numbered left to right)</text></svg>';
+}
+function renderScatterPlot(x,y,slope,intercept){
+ const w=640,h=280,l=48,r=20,t=16,b=42,pw=w-l-r,ph=h-t-b,minX=Math.min(...x),maxX=Math.max(...x),minY=Math.min(...y),maxY=Math.max(...y),padX=(maxX-minX)*.08||1,padY=(maxY-minY)*.12||1,x0=minX-padX,x1=maxX+padX,y0=minY-padY,y1=maxY+padY;
+ const px=v=>l+(v-x0)/(x1-x0)*pw,py=v=>t+ph-(v-y0)/(y1-y0)*ph;
+ const dots=x.map((v,i)=>'<circle class="chart-point" cx="'+px(v).toFixed(2)+'" cy="'+py(y[i]).toFixed(2)+'" r="5" fill="var(--accent)"><title>Point '+(i+1)+': ('+v+', '+y[i]+')</title></circle>').join("");
+ const line='<line x1="'+px(x0).toFixed(2)+'" y1="'+py(slope*x0+intercept).toFixed(2)+'" x2="'+px(x1).toFixed(2)+'" y2="'+py(slope*x1+intercept).toFixed(2)+'" stroke="#d97706" stroke-width="3"/>';
+ return '<div class="chart-panel"><h3>Scatter plot and regression line</h3><p class="chart-caption">Hover over a point to inspect its X and Y values.</p><svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Scatter plot with fitted regression line"><line x1="'+l+'" y1="'+(t+ph)+'" x2="'+(w-r)+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/><line x1="'+l+'" y1="'+t+'" x2="'+l+'" y2="'+(t+ph)+'" stroke="currentColor" opacity=".5"/>'+line+dots+'<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-size="11" fill="currentColor">X values</text><text x="13" y="'+h/2+'" transform="rotate(-90 13 '+h/2+')" text-anchor="middle" font-size="11" fill="currentColor">Y values</text></svg></div>';
+}
 function searchSite(query){
  const panel=document.getElementById('siteSearchResults');if(!panel)return;const term=query.trim().toLowerCase();panel.replaceChildren();if(!term){panel.classList.add('hidden');return;}
  const matches=[...document.querySelectorAll('.container section')].map(section=>({id:section.id,title:section.querySelector('h2')?.textContent||section.id,text:section.innerText.toLowerCase()})).filter(item=>item.text.includes(term)).slice(0,8);
@@ -1022,6 +1037,8 @@ function calculateStats(){
     <div class="stat-card"><h4>IQR</h4><div>${q.iqr.toFixed(4)}</div></div>
   </div>`;
   document.getElementById("statsResult").innerHTML=result;
+  const chartPanel=document.createElement("div");chartPanel.className="chart-panel";chartPanel.innerHTML='<h3>Dataset distribution</h3><p class="chart-caption">Hover over a bar to inspect its range and frequency.</p><div id="statsHistogram"></div>';
+  document.getElementById("statsResult").appendChild(chartPanel);renderHistogram(data,"statsHistogram");
   addHistory("Descriptive statistics calculated ("+type+")");
 }
 function factorial(n){
@@ -1166,6 +1183,7 @@ ${slope.toFixed(4)}
 x +
 ${intercept.toFixed(4)}
 `;
+document.getElementById("regressionResult").innerHTML += renderScatterPlot(x,y,slope,intercept);
 addHistory(
 "Regression calculated"
 );
@@ -1439,6 +1457,9 @@ try{
 showSection(
 "homeSection"
 );
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+ window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(error=>console.warn("Service worker registration failed:",error)));
+}
 </script>
 </body>
 </html>
